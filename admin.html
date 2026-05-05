@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>La Famiglia · Admin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500;1,700;1,900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+
+  <!-- ============ LOGIN ============ -->
+  <section class="auth" id="auth-screen">
+    <form class="auth-card" id="auth-form" autocomplete="off">
+      <h1>La Famiglia<br/><span>Admin</span></h1>
+      <label for="auth-pass">Contraseña</label>
+      <input type="password" id="auth-pass" autocomplete="current-password" required />
+      <button type="submit">Ingresar</button>
+      <p class="auth-hint" id="auth-hint" hidden>Contraseña incorrecta.</p>
+      <a href="index.html" class="auth-back">← Volver al sitio</a>
+    </form>
+  </section>
+
+  <!-- ============ DASHBOARD ============ -->
+  <main class="dash" id="dash" hidden>
+    <header class="dash-head">
+      <h1>La Famiglia <span>Admin</span></h1>
+      <div class="dash-actions">
+        <a href="index.html" class="btn ghost" target="_blank" rel="noopener">Ver sitio ↗</a>
+        <button id="logout" class="btn ghost" type="button">Salir</button>
+      </div>
+    </header>
+
+    <nav class="dash-tabs" role="tablist">
+      <button class="tab active" data-tab="products" role="tab">Productos</button>
+      <button class="tab" data-tab="categories" role="tab">Categorías</button>
+      <button class="tab" data-tab="data" role="tab">Datos</button>
+    </nav>
+
+    <!-- TAB · Productos -->
+    <section class="dash-panel" id="panel-products" role="tabpanel">
+      <div class="panel-head">
+        <h2>Productos</h2>
+        <button class="btn primary" id="add-product" type="button">+ Nuevo producto</button>
+      </div>
+      <div id="products-list"></div>
+    </section>
+
+    <!-- TAB · Categorías -->
+    <section class="dash-panel" id="panel-categories" role="tabpanel" hidden>
+      <div class="panel-head">
+        <h2>Categorías</h2>
+        <button class="btn primary" id="add-category" type="button">+ Nueva categoría</button>
+      </div>
+      <div id="categories-list"></div>
+    </section>
+
+    <!-- TAB · Datos -->
+    <section class="dash-panel" id="panel-data" role="tabpanel" hidden>
+      <div class="panel-head">
+        <h2>Datos</h2>
+      </div>
+      <div class="data-actions">
+        <div class="data-action">
+          <h3>Exportar carta</h3>
+          <p>Descargá un archivo JSON con todas las categorías y productos. Útil como backup antes de hacer cambios grandes.</p>
+          <button class="btn primary" id="export-json" type="button">Exportar JSON</button>
+        </div>
+        <div class="data-action">
+          <h3>Importar carta</h3>
+          <p>Subí un JSON exportado para restaurar la carta. <strong>Reemplaza</strong> los datos actuales.</p>
+          <input type="file" id="import-file" accept=".json,application/json" hidden />
+          <button class="btn primary" id="import-json" type="button">Importar JSON</button>
+        </div>
+        <div class="data-action data-action-danger">
+          <h3>Restablecer carta por defecto</h3>
+          <p>Borra todos los cambios y vuelve a la carta original. No afecta el carrito de los clientes.</p>
+          <button class="btn danger" id="reset-defaults" type="button">Restablecer carta</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ MODAL · Producto ============ -->
+  <div class="modal" id="product-modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
+      <header>
+        <h3 id="product-modal-title">Nuevo producto</h3>
+        <button class="modal-close" data-close type="button" aria-label="Cerrar">×</button>
+      </header>
+      <form id="product-form">
+        <div class="field">
+          <label for="pf-name">Nombre</label>
+          <input type="text" id="pf-name" name="name" required />
+        </div>
+        <div class="field">
+          <label for="pf-category">Categoría</label>
+          <select id="pf-category" name="category" required></select>
+        </div>
+        <div class="field">
+          <label for="pf-price">Precio <small>(en pesos, sin puntos ni decimales)</small></label>
+          <input type="number" id="pf-price" name="price" min="0" step="1" required />
+        </div>
+        <div class="field">
+          <label for="pf-description">Descripción <small>(opcional)</small></label>
+          <textarea id="pf-description" name="description" rows="2"></textarea>
+        </div>
+        <div class="field-row">
+          <label class="check">
+            <input type="checkbox" name="available" />
+            <span>Disponible <small>(visible en la carta)</small></span>
+          </label>
+          <label class="check">
+            <input type="checkbox" name="featured" />
+            <span>Destacado <small>(★ Más pedido)</small></span>
+          </label>
+        </div>
+        <input type="hidden" name="id" />
+        <footer>
+          <button type="button" class="btn ghost" data-close>Cancelar</button>
+          <button type="submit" class="btn primary">Guardar</button>
+        </footer>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ MODAL · Categoría ============ -->
+  <div class="modal" id="category-modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="category-modal-title">
+      <header>
+        <h3 id="category-modal-title">Nueva categoría</h3>
+        <button class="modal-close" data-close type="button" aria-label="Cerrar">×</button>
+      </header>
+      <form id="category-form">
+        <div class="field">
+          <label for="cf-name">Nombre</label>
+          <input type="text" id="cf-name" name="name" required />
+        </div>
+        <div class="field">
+          <label for="cf-tag">Tag opcional <small>(ej. "gourmet", "vegano")</small></label>
+          <input type="text" id="cf-tag" name="tag" />
+        </div>
+        <div class="field">
+          <label for="cf-order">Orden <small>(número, menor aparece primero)</small></label>
+          <input type="number" id="cf-order" name="order" step="1" />
+        </div>
+        <input type="hidden" name="id" />
+        <footer>
+          <button type="button" class="btn ghost" data-close>Cancelar</button>
+          <button type="submit" class="btn primary">Guardar</button>
+        </footer>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/products.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

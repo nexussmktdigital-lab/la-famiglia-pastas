@@ -15,6 +15,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Allura&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
 
+  <!-- Estilos del carrito -->
+  <link rel="stylesheet" href="css/cart.css" />
+
   <style>
     /* =========================================================
        1. TOKENS · Variables
@@ -1820,6 +1823,123 @@
 
     /* Block scroll cuando el panel mobile está abierto */
     body.menu-open { overflow: hidden; }
+
+    /* =========================================================
+       FAB · botón flotante de WhatsApp (bottom-right siempre visible)
+       ========================================================= */
+    .fab-whatsapp {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 60px;
+      height: 60px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--ink);
+      color: var(--cream-soft);
+      border-radius: 50%;
+      z-index: 45;
+      box-shadow:
+        0 10px 24px rgba(10, 8, 5, 0.36),
+        0 2px 6px rgba(10, 8, 5, 0.24),
+        inset 0 1px 0 rgba(245, 240, 232, 0.15);
+      transition: transform 0.4s var(--ease), background 0.4s var(--ease), color 0.4s var(--ease), box-shadow 0.4s var(--ease), opacity 0.3s var(--ease);
+    }
+    .fab-whatsapp svg {
+      width: 28px;
+      height: 28px;
+      position: relative;
+      z-index: 2;
+    }
+    /* Anillo pulsante (atrae el ojo sutilmente cada 3s) */
+    .fab-whatsapp::before,
+    .fab-whatsapp::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px solid var(--cheese);
+      pointer-events: none;
+      animation: fab-pulse 2.8s var(--ease) infinite;
+    }
+    .fab-whatsapp::after { animation-delay: 1.4s; }
+
+    .fab-whatsapp:hover {
+      background: var(--ink-deep);
+      color: var(--cheese-l);
+      transform: scale(1.08);
+      box-shadow:
+        0 14px 32px rgba(10, 8, 5, 0.48),
+        0 3px 8px rgba(10, 8, 5, 0.28),
+        inset 0 1px 0 rgba(245, 240, 232, 0.2);
+    }
+
+    /* Tooltip "Pedir por WhatsApp" en hover (solo desktop) */
+    .fab-tooltip {
+      position: absolute;
+      right: calc(100% + 14px);
+      top: 50%;
+      transform: translateY(-50%) translateX(8px);
+      background: var(--ink-deep);
+      color: var(--cream-soft);
+      font-family: var(--f-ui);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      padding: 0.55rem 0.9rem;
+      border-radius: 4px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+      box-shadow: 0 6px 16px rgba(10, 8, 5, 0.32);
+    }
+    .fab-tooltip::after {
+      content: '';
+      position: absolute;
+      right: -4px;
+      top: 50%;
+      transform: translateY(-50%) rotate(45deg);
+      width: 8px;
+      height: 8px;
+      background: var(--ink-deep);
+    }
+    .fab-whatsapp:hover .fab-tooltip {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+
+    @keyframes fab-pulse {
+      0%   { transform: scale(1);    opacity: 0.55; }
+      80%  { transform: scale(1.55); opacity: 0; }
+      100% { transform: scale(1.55); opacity: 0; }
+    }
+
+    /* Mobile: más chico, sin tooltip, márgenes ajustados */
+    @media (max-width: 760px) {
+      .fab-whatsapp {
+        width: 52px;
+        height: 52px;
+        bottom: 1rem;
+        right: 1rem;
+      }
+      .fab-whatsapp svg { width: 24px; height: 24px; }
+      .fab-tooltip { display: none; }
+    }
+
+    /* Ocultar cuando el menú mobile está abierto (el panel cubre todo) */
+    body.menu-open .fab-whatsapp {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.85);
+    }
+
+    /* Respetar reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .fab-whatsapp::before,
+      .fab-whatsapp::after { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -2064,177 +2184,8 @@
         <p>Selección permanente. Recomendamos reservar tu pedido por WhatsApp con un día de anticipación.</p>
       </div>
 
-      <div class="carta-grid">
-
-        <!-- ===== Columna izquierda ===== -->
-        <div>
-          <article class="carta-cat">
-            <div class="cat-head">
-              <span class="cat-name">
-                <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-                  <circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 2"/>
-                  <circle cx="16" cy="16" r="8" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.6"/>
-                  <circle cx="16" cy="16" r="2" fill="currentColor"/>
-                </svg>
-                Sorrentinos
-              </span>
-              <span class="cat-price-head">Precio</span>
-            </div>
-            <ul class="menu-list">
-              <li>
-                <span class="name">Muzzarella y jamón <span class="star">★</span></span>
-                <span class="leader"></span>
-                <span class="price">$11.000</span>
-              </li>
-              <li>
-                <span class="name">Cuatro quesos</span>
-                <span class="leader"></span>
-                <span class="price">$11.000</span>
-              </li>
-              <li>
-                <span class="name">Calabaza y muzzarella</span>
-                <span class="leader"></span>
-                <span class="price">$11.000</span>
-              </li>
-              <li>
-                <span class="name">Ricota, jamón y nuez</span>
-                <span class="leader"></span>
-                <span class="price">$11.000</span>
-              </li>
-              <li>
-                <span class="name">Ricota, rúcula y parmesano</span>
-                <span class="leader"></span>
-                <span class="price">$11.000</span>
-              </li>
-            </ul>
-          </article>
-
-          <article class="carta-cat">
-            <div class="cat-head">
-              <span class="cat-name">
-                <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-                  <path d="M4 22 L 16 6 L 28 22 Z" fill="none" stroke="currentColor" stroke-width="2"/>
-                  <circle cx="16" cy="18" r="2" fill="currentColor"/>
-                </svg>
-                Sorrentinos <span class="cat-tag">gourmet</span>
-              </span>
-              <span class="cat-price-head">Precio</span>
-            </div>
-            <ul class="menu-list">
-              <li>
-                <span class="name">Bondiola braseada</span>
-                <span class="leader"></span>
-                <span class="price">$15.000</span>
-              </li>
-              <li>
-                <span class="name">Hongos</span>
-                <span class="leader"></span>
-                <span class="price">$16.000</span>
-              </li>
-              <li>
-                <span class="name">Salmón <span class="star">★</span></span>
-                <span class="leader"></span>
-                <span class="price">$19.500</span>
-              </li>
-            </ul>
-          </article>
-        </div>
-
-        <!-- ===== Columna derecha ===== -->
-        <div>
-          <article class="carta-cat">
-            <div class="cat-head">
-              <span class="cat-name">
-                <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-                  <rect x="4" y="8" width="24" height="16" rx="1" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 2"/>
-                  <line x1="4" y1="16" x2="28" y2="16" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/>
-                  <line x1="16" y1="8" x2="16" y2="24" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/>
-                </svg>
-                Ravioles
-              </span>
-              <span class="cat-price-head">Precio</span>
-            </div>
-            <ul class="menu-list">
-              <li>
-                <span class="name">Carne y verdura <span class="star">★</span></span>
-                <span class="leader"></span>
-                <span class="price">$9.500</span>
-              </li>
-              <li>
-                <span class="name">Pollo y verdura</span>
-                <span class="leader"></span>
-                <span class="price">$9.500</span>
-              </li>
-              <li>
-                <span class="name">Ricota y jamón</span>
-                <span class="leader"></span>
-                <span class="price">$9.500</span>
-              </li>
-              <li>
-                <span class="name">Calabaza y muzzarella</span>
-                <span class="leader"></span>
-                <span class="price">$9.500</span>
-              </li>
-              <li>
-                <span class="name">Espinaca y ricota</span>
-                <span class="leader"></span>
-                <span class="price">$9.500</span>
-              </li>
-            </ul>
-          </article>
-
-          <article class="carta-cat">
-            <div class="cat-head">
-              <span class="cat-name">
-                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-                  <path d="M4 12 q 6 4, 12 0 q 6 -4, 12 0"/>
-                  <path d="M4 18 q 6 4, 12 0 q 6 -4, 12 0"/>
-                  <path d="M4 24 q 6 4, 12 0 q 6 -4, 12 0"/>
-                </svg>
-                Tallarines
-              </span>
-              <span class="cat-price-head">Precio</span>
-            </div>
-            <ul class="menu-list">
-              <li>
-                <span class="name">1 kg</span>
-                <span class="leader"></span>
-                <span class="price">$8.500</span>
-              </li>
-              <li>
-                <span class="name">½ kg</span>
-                <span class="leader"></span>
-                <span class="price">$5.000</span>
-              </li>
-            </ul>
-          </article>
-
-          <article class="carta-cat">
-            <div class="cat-head">
-              <span class="cat-name">
-                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                  <ellipse cx="11" cy="14" rx="5" ry="3.5"/>
-                  <ellipse cx="21" cy="14" rx="5" ry="3.5"/>
-                  <ellipse cx="16" cy="22" rx="5" ry="3.5"/>
-                  <line x1="8" y1="14" x2="14" y2="14" stroke-width="1"/>
-                  <line x1="18" y1="14" x2="24" y2="14" stroke-width="1"/>
-                  <line x1="13" y1="22" x2="19" y2="22" stroke-width="1"/>
-                </svg>
-                Ñoquis
-              </span>
-              <span class="cat-price-head">Precio</span>
-            </div>
-            <ul class="menu-list">
-              <li>
-                <span class="name">1 kg</span>
-                <span class="leader"></span>
-                <span class="price">$10.000</span>
-              </li>
-            </ul>
-          </article>
-        </div>
-
-      </div>
+      <!-- Carta dinamica - renderizada por js/cart.js desde productos en localStorage -->
+      <div id="carta-container"></div>
 
       <p class="legend">
         <span><span class="star">★</span> Más pedido</span>
@@ -2624,6 +2575,64 @@
     </div>
   </footer>
 
+  <!-- ======== FAB · botón flotante de WhatsApp ======== -->
+  <a class="fab-whatsapp"
+     href="https://wa.me/543574432907"
+     target="_blank"
+     rel="noopener"
+     aria-label="Pedir por WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.6.1-1.7-.8-2.8-1.5-3.9-3.4-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2.1 3.2 5 4.4.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.6-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3z"/>
+      <path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.7 1.4 5.7 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.3zM12 21.8c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.3C2.1 6.6 6.5 2.2 12 2.2c2.6 0 5.1 1 7 2.9 1.9 1.9 2.9 4.4 2.9 7-.1 5.4-4.5 9.8-9.9 9.8z"/>
+    </svg>
+    <span class="fab-tooltip">Pedir por WhatsApp</span>
+  </a>
+
+  <!-- ======== CARRITO · FAB + drawer + toast ======== -->
+  <button class="cart-fab" id="cart-fab" type="button"
+          aria-label="Ver carrito de pedidos" aria-haspopup="dialog">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M6 7h12l-1.4 12.2a2 2 0 0 1-2 1.8h-5.2a2 2 0 0 1-2-1.8z"/>
+      <path d="M9 7V5a3 3 0 0 1 6 0v2"/>
+    </svg>
+    <span class="cart-badge" id="cart-badge" hidden>0</span>
+  </button>
+
+  <div class="cart-backdrop" id="cart-backdrop" aria-hidden="true"></div>
+
+  <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-labelledby="cart-title" aria-modal="true">
+    <header class="cart-head">
+      <h2 id="cart-title">Tu pedido <span class="cart-script">della famiglia</span></h2>
+      <button class="cart-close" id="cart-close" type="button" aria-label="Cerrar carrito">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M5 5L19 19M19 5L5 19"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="cart-body">
+      <p class="cart-empty" id="cart-empty">El carrito está vacío.<br/>Sumá pastas desde la carta.</p>
+      <ul id="cart-list"></ul>
+    </div>
+
+    <footer class="cart-foot">
+      <div class="cart-total">
+        <span>Total</span>
+        <strong id="cart-total">$0</strong>
+      </div>
+      <button class="cart-checkout" id="cart-checkout" type="button" disabled>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.6.1-1.7-.8-2.8-1.5-3.9-3.4-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2.1 3.2 5 4.4.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.6-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3z"/>
+          <path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.7 1.4 5.7 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.3zM12 21.8c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.3C2.1 6.6 6.5 2.2 12 2.2c2.6 0 5.1 1 7 2.9 1.9 1.9 2.9 4.4 2.9 7-.1 5.4-4.5 9.8-9.9 9.8z"/>
+        </svg>
+        Hacer pedido por WhatsApp
+      </button>
+      <button class="cart-clear" id="cart-clear" type="button" hidden>Vaciar carrito</button>
+    </footer>
+  </aside>
+
+  <div class="cart-toast" id="cart-toast" role="status" aria-live="polite"></div>
+
   <!-- ======== JS · nav blur + menú mobile ======== -->
   <script>
     (function () {
@@ -2671,6 +2680,10 @@
       });
     })();
   </script>
+
+  <!-- ======== Scripts del carrito ======== -->
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
 
 </body>
 </html>
