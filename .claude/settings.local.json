@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(awk '/@media/,0 { if \\(/<\\\\/style>/\\) exit; print NR\": \"$0 }' \"d:/Proyectos/La Famiglia Pastas/index.html\")",
+      "Bash(grep -E \"^[0-9]+: \\(\\\\s*@media|\\\\s*\\\\}\\\\s*$\\)\")",
+      "WebFetch(domain:unsplash.com)"
+    ]
+  }
+}

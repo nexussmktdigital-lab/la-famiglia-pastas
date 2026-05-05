@@ -1,0 +1,2676 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="La Famiglia Argañaraz · Pastas frescas artesanales en Liceo Procrear. Hechas a mano, todos los días." />
+  <title>La Famiglia Argañaraz · Pastas frescas artesanales</title>
+
+  <!-- Google Fonts:
+       · Allura — script para el wordmark "La Famiglia"
+       · Playfair Display — display / títulos de sección
+       · Cormorant Garamond — cuerpo
+       · DM Sans — UI / labels -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================================================
+       1. TOKENS · Variables
+       ========================================================= */
+    :root {
+      /* === PALETA · derivada del logo (negro sobre crema) + queso Reggianito === */
+      --cream:        #f5f0e8;   /* fondo principal · papel crema */
+      --cream-soft:   #faf6ee;   /* highlights · cards */
+      --cream-deep:   #ebe2d2;   /* parchment · secciones secundarias */
+
+      --ink:          #1a1410;   /* tinta del logo · texto y CTAs */
+      --ink-soft:     #3a2d22;   /* texto secundario */
+      --ink-deep:     #0a0805;   /* secciones dark / fondo footer */
+
+      --cheese:       #d4a82a;   /* acento principal · queso Reggianito */
+      --cheese-d:     #a07418;   /* aged crust · oscuro */
+      --cheese-l:     #ecd17a;   /* young & soft · pastel */
+
+      /* Sombras frías (sin tinte naranja) */
+      --shadow-sm:    0 2px 6px rgba(10, 8, 5, 0.08), 0 1px 2px rgba(10, 8, 5, 0.06);
+      --shadow-md:    0 6px 20px rgba(10, 8, 5, 0.12), 0 2px 6px rgba(10, 8, 5, 0.08);
+      --shadow-lg:    0 18px 48px rgba(10, 8, 5, 0.18), 0 8px 16px rgba(10, 8, 5, 0.12);
+      --shadow-card:  0 1px 0 rgba(255, 252, 245, 0.6) inset, 0 8px 24px rgba(10, 8, 5, 0.10);
+
+      /* Tipografía */
+      --f-script:     'Allura', 'Pinyon Script', cursive;
+      --f-display:    'Playfair Display', 'Times New Roman', serif;
+      --f-body:       'Cormorant Garamond', 'Garamond', serif;
+      --f-ui:         'DM Sans', system-ui, sans-serif;
+
+      /* Layout */
+      --container:    1240px;
+      --pad-x:        clamp(1.25rem, 4vw, 2.5rem);
+      --section-y:    clamp(5rem, 10vw, 8rem);
+
+      --ease:         cubic-bezier(.2,.7,.2,1);
+    }
+
+    /* =========================================================
+       2. RESET & BASE
+       ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--f-body);
+      font-size: 1.125rem;
+      line-height: 1.55;
+      color: var(--ink);
+      background: var(--cream);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
+    h1, h2, h3, h4 {
+      font-family: var(--f-display);
+      font-weight: 700;
+      line-height: 1.04;
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
+    p { margin: 0; }
+    ::selection { background: var(--cheese); color: var(--cream-soft); }
+
+    .wrap {
+      width: 100%;
+      max-width: var(--container);
+      margin: 0 auto;
+      padding-inline: var(--pad-x);
+    }
+
+    /* =========================================================
+       3. GRANO · Textura de papel
+       ========================================================= */
+    .grain {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 100;
+      opacity: 0.55;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.18  0 0 0 0 0.12  0 0 0 0 0.07  0 0 0 0.18 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    }
+
+    /* =========================================================
+       4. WORDMARK · Logo "La Famiglia Argañaraz"
+       ========================================================= */
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      color: var(--ink);
+      line-height: 1;
+      /* Color del pliegue del chef hat (línea opuesta al fill) */
+      --hat-pleat: var(--cream);
+      transition: color 0.45s var(--ease);
+    }
+    .brand-mark { transition: color 0.45s var(--ease); }
+    /* En el footer (fondo oscuro) el pliegue debe ser ink para ser visible sobre el sombrero crema */
+    .footer .brand { --hat-pleat: var(--ink-deep); }
+    .brand-mark {
+      width: 38px; height: 38px;
+      color: currentColor;
+      flex-shrink: 0;
+    }
+    .brand-text {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1;
+    }
+    .brand-text .lf {
+      font-family: var(--f-script);
+      font-weight: 400;
+      font-size: 2.1rem;
+      letter-spacing: -0.01em;
+      color: currentColor;
+      line-height: 0.95;
+      margin-bottom: -0.1em;
+    }
+    .brand-text .arg {
+      font-family: var(--f-script);
+      font-size: 0.92rem;
+      letter-spacing: 0.01em;
+      color: currentColor;
+      opacity: 0.85;
+      margin-left: 1.6em;
+      position: relative;
+    }
+    .brand-text .arg::after {
+      content: '';
+      position: absolute;
+      left: -1.4em; right: 0.5em;
+      bottom: -0.1em;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.45;
+      border-radius: 50%;
+    }
+
+    /* Versión grande para el footer */
+    .brand-lg .brand-mark { width: 60px; height: 60px; }
+    .brand-lg .brand-text .lf  { font-size: 3.3rem; }
+    .brand-lg .brand-text .arg { font-size: 1.45rem; margin-left: 2.2em; }
+
+    /* =========================================================
+       5. UI: BOTONES, ETIQUETAS, DIVISORES
+       ========================================================= */
+    .eyebrow {
+      font-family: var(--f-ui);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .eyebrow::before, .eyebrow::after {
+      content: '';
+      width: 28px; height: 1px;
+      background: currentColor;
+      opacity: 0.5;
+    }
+    .eyebrow.solo::after { display: none; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.95rem 1.6rem;
+      font-family: var(--f-ui);
+      font-size: 0.92rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      border-radius: 999px;
+      transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), background 0.4s var(--ease), color 0.4s var(--ease);
+      will-change: transform;
+    }
+    .btn-primary {
+      background: var(--ink);
+      color: var(--cream-soft);
+      box-shadow: 0 8px 20px rgba(10, 8, 5, 0.32), inset 0 1px 0 rgba(245, 240, 232, 0.15);
+    }
+    .btn-primary:hover {
+      background: var(--ink-deep);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(10, 8, 5, 0.42), inset 0 1px 0 rgba(245, 240, 232, 0.18);
+      color: var(--cheese-l); /* hint amarillo en el hover */
+    }
+    .btn-ghost {
+      color: var(--ink);
+      background: transparent;
+      border: 1px solid rgba(26, 20, 16, 0.22);
+    }
+    .btn-ghost:hover {
+      background: var(--ink);
+      color: var(--cream-soft);
+      transform: translateY(-2px);
+      border-color: var(--ink);
+    }
+    .btn-ghost .arrow { transition: transform 0.4s var(--ease); }
+    .btn-ghost:hover .arrow { transform: translateX(4px); }
+
+    .btn-gold {
+      background: var(--cheese);
+      color: var(--ink-deep);
+      box-shadow: 0 8px 20px rgba(212, 168, 42, 0.42);
+    }
+    .btn-gold:hover {
+      background: var(--cheese-d);
+      transform: translateY(-2px);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.1rem;
+      color: var(--cheese);
+      margin: 0 auto 2rem;
+      max-width: 360px;
+      opacity: 0.85;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1; height: 1px;
+      background: currentColor;
+    }
+    .divider svg { width: 22px; height: 22px; }
+
+    /* =========================================================
+       6. NAV
+       ========================================================= */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      transition: background 0.4s var(--ease), backdrop-filter 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
+      border-bottom: 1px solid transparent;
+    }
+    .nav.scrolled {
+      background: rgba(245, 240, 232, 0.82);
+      backdrop-filter: saturate(140%) blur(14px);
+      -webkit-backdrop-filter: saturate(140%) blur(14px);
+      border-bottom-color: rgba(26, 20, 16, 0.08);
+      box-shadow: 0 6px 18px rgba(10, 8, 5, 0.08);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.95rem 0;
+      gap: 1.5rem;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.85rem;
+      list-style: none;
+      padding: 0; margin: 0;
+      font-family: var(--f-ui);
+      font-size: 0.86rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .nav-links a {
+      position: relative;
+      padding: 0.4rem 0;
+      color: var(--ink);
+      opacity: 0.78;
+      transition: opacity 0.3s var(--ease), color 0.3s var(--ease);
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 1px;
+      background: var(--cheese);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.4s var(--ease);
+    }
+    .nav-links a:hover { opacity: 1; color: var(--cheese-d); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.2rem;
+      background: var(--ink);
+      color: var(--cream-soft);
+      border-radius: 999px;
+      font-family: var(--f-ui);
+      font-size: 0.84rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      box-shadow: 0 6px 16px rgba(10, 8, 5, 0.32), inset 0 1px 0 rgba(245, 240, 232, 0.15);
+      transition: transform 0.35s var(--ease), background 0.35s var(--ease), box-shadow 0.35s var(--ease), color 0.35s var(--ease);
+    }
+    .nav-cta:hover {
+      background: var(--ink-deep);
+      color: var(--cheese-l);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(10, 8, 5, 0.42);
+    }
+    .nav-cta svg { width: 14px; height: 14px; }
+
+    /* Hamburguesa + panel mobile */
+    .nav-burger {
+      display: none;
+      width: 44px; height: 44px;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 0;
+      color: var(--ink);
+      cursor: pointer;
+      padding: 0;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-left: 0.2rem;
+      transition: background 0.3s var(--ease), color 0.4s var(--ease);
+    }
+    .nav-burger:hover { background: rgba(26, 20, 16, 0.06); }
+    .nav-burger svg { width: 24px; height: 24px; }
+    .nav-burger .burger-close { display: none; }
+    .nav-burger[aria-expanded="true"] .burger-open { display: none; }
+    .nav-burger[aria-expanded="true"] .burger-close { display: block; }
+
+    /* En desktop el <nav class="nav-panel"> "desaparece" del layout y deja a la UL como hija directa del flex */
+    .nav-panel { display: contents; }
+
+    /* =========================================================
+       NAV STATE MACHINE
+       · Default (no scrolled): nav transparente sobre el hero oscuro → textos cream
+       · Scrolled: fondo cream con blur → textos ink (estado ya existente)
+       ========================================================= */
+
+    /* Default · sobre hero oscuro */
+    .nav .brand {
+      color: var(--cream-soft);
+      --hat-pleat: var(--ink-deep);
+    }
+    .nav .nav-links a { color: var(--cream-soft); opacity: 0.85; }
+    .nav .nav-links a:hover { color: var(--cheese-l); opacity: 1; }
+    .nav .nav-burger { color: var(--cream-soft); }
+    .nav .nav-burger:hover { background: rgba(245, 240, 232, 0.10); }
+    .nav .nav-cta {
+      background: var(--cream-soft);
+      color: var(--ink);
+      box-shadow: 0 6px 16px rgba(10, 8, 5, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    }
+    .nav .nav-cta:hover {
+      background: var(--ink);
+      color: var(--cream-soft);
+      box-shadow: 0 10px 22px rgba(10, 8, 5, 0.36);
+    }
+
+    /* Scrolled · fondo cream blurred → revertimos a paleta ink */
+    .nav.scrolled .brand {
+      color: var(--ink);
+      --hat-pleat: var(--cream);
+    }
+    .nav.scrolled .nav-links a { color: var(--ink); opacity: 0.78; }
+    .nav.scrolled .nav-links a:hover { color: var(--cheese-d); opacity: 1; }
+    .nav.scrolled .nav-burger { color: var(--ink); }
+    .nav.scrolled .nav-burger:hover { background: rgba(26, 20, 16, 0.06); }
+    .nav.scrolled .nav-cta {
+      background: var(--ink);
+      color: var(--cream-soft);
+      box-shadow: 0 6px 16px rgba(10, 8, 5, 0.32), inset 0 1px 0 rgba(245, 240, 232, 0.15);
+    }
+    .nav.scrolled .nav-cta:hover {
+      background: var(--ink-deep);
+      color: var(--cheese-l);
+      box-shadow: 0 10px 22px rgba(10, 8, 5, 0.42);
+    }
+
+    /* Mobile · cuando el menú está abierto, el panel cream cubre el fondo:
+       forzamos los textos del nav a ink para que sean visibles */
+    body.menu-open .nav .brand {
+      color: var(--ink);
+      --hat-pleat: var(--cream);
+    }
+    body.menu-open .nav .nav-burger { color: var(--ink); }
+    body.menu-open .nav .nav-burger:hover { background: rgba(26, 20, 16, 0.06); }
+    body.menu-open .nav .nav-cta {
+      background: var(--ink);
+      color: var(--cream-soft);
+      box-shadow: 0 6px 16px rgba(10, 8, 5, 0.32), inset 0 1px 0 rgba(245, 240, 232, 0.15);
+    }
+
+    /* =========================================================
+       7. HERO · imagen full-bleed con overlay oscuro + contenido centrado
+       ========================================================= */
+    .hero {
+      position: relative;
+      padding: clamp(7rem, 13vh, 10rem) 0 clamp(4rem, 8vh, 6rem);
+      min-height: 100vh;
+      min-height: 100svh; /* iOS Safari */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      color: var(--cream-soft);
+    }
+
+    /* Imagen de fondo full-bleed */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+      filter: saturate(95%) contrast(102%);
+    }
+
+    /* Overlay oscuro · garantiza legibilidad del texto sobre la foto */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 60% at center, rgba(10, 8, 5, 0.30) 0%, rgba(10, 8, 5, 0.78) 90%),
+        linear-gradient(180deg, rgba(10, 8, 5, 0.55) 0%, rgba(10, 8, 5, 0.25) 45%, rgba(10, 8, 5, 0.85) 100%);
+    }
+
+    /* Ornamentos sutiles en cream (pasan al fondo oscuro) */
+    .hero-ornament {
+      position: absolute;
+      width: 88px; height: 88px;
+      color: var(--cream-soft);
+      opacity: 0.28;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .hero-ornament.tl { top: 96px; left: var(--pad-x); }
+    .hero-ornament.tr { top: 96px; right: var(--pad-x); transform: scaleX(-1); }
+    .hero-ornament.bl { bottom: 28px; left: var(--pad-x); transform: scaleY(-1); }
+    .hero-ornament.br { bottom: 28px; right: var(--pad-x); transform: scale(-1, -1); }
+
+    /* Contenido centrado · una sola columna */
+    .hero-grid {
+      position: relative;
+      z-index: 3;
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      max-width: 720px;
+    }
+
+    .hero-eyebrow {
+      margin-bottom: 1.4rem;
+      color: rgba(245, 240, 232, 0.82);
+      animation: rise 1s var(--ease) both;
+      animation-delay: 0.05s;
+    }
+
+    .hero-title {
+      color: var(--cream-soft);
+      font-size: clamp(2.4rem, 7.6vw, 7rem);
+      letter-spacing: -0.025em;
+      line-height: 0.96;
+      text-shadow: 0 2px 28px rgba(10, 8, 5, 0.5);
+      animation: rise 1.1s var(--ease) both;
+      animation-delay: 0.18s;
+    }
+    .hero-title .em {
+      font-style: italic;
+      font-weight: 900;
+      color: var(--cheese);
+      position: relative;
+      display: inline-block;
+    }
+    .hero-title .em::after {
+      content: '';
+      position: absolute;
+      left: 4%; right: 6%;
+      bottom: 0.04em;
+      height: 0.16em;
+      background: var(--cheese);
+      opacity: 0.50;
+      border-radius: 0.1em 0.4em 0.2em 0.6em / 60% 70% 80% 50%;
+      transform: rotate(-0.6deg);
+      z-index: -1;
+    }
+
+    .hero-script {
+      font-family: var(--f-script);
+      font-size: clamp(2.2rem, 4.4vw, 3.6rem);
+      color: var(--cheese);
+      line-height: 0.9;
+      display: block;
+      margin: -0.2em 0 0.05em;
+      text-shadow: 0 2px 18px rgba(10, 8, 5, 0.5);
+      animation: rise 1.1s var(--ease) both;
+      animation-delay: 0.12s;
+    }
+
+    .hero-sub {
+      font-family: var(--f-body);
+      font-style: italic;
+      font-size: clamp(1.18rem, 1.6vw, 1.5rem);
+      line-height: 1.5;
+      color: rgba(245, 240, 232, 0.88);
+      margin-top: 1.4rem;
+      max-width: 42ch;
+      text-shadow: 0 1px 12px rgba(10, 8, 5, 0.4);
+      animation: rise 1.1s var(--ease) both;
+      animation-delay: 0.32s;
+    }
+
+    .hero-ctas {
+      display: flex; flex-wrap: wrap; gap: 0.85rem;
+      justify-content: center;
+      margin-top: 2.4rem;
+      animation: rise 1.1s var(--ease) both;
+      animation-delay: 0.46s;
+    }
+
+    /* btn-ghost: invertido cuando está dentro del hero (fondo oscuro) */
+    .hero .btn-ghost {
+      color: var(--cream-soft);
+      background: transparent;
+      border: 1px solid rgba(245, 240, 232, 0.42);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .hero .btn-ghost:hover {
+      background: var(--cream-soft);
+      color: var(--ink);
+      border-color: var(--cream-soft);
+      transform: translateY(-2px);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(1.6rem, 4vw, 3rem);
+      margin-top: 3rem;
+      font-family: var(--f-ui);
+      font-size: 0.74rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, 0.62);
+      animation: rise 1.1s var(--ease) both;
+      animation-delay: 0.6s;
+    }
+    .hero-meta > div {
+      text-align: center;
+      min-width: 110px;
+    }
+    .hero-meta strong {
+      display: block;
+      font-family: var(--f-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: 1.7rem;
+      letter-spacing: -0.01em;
+      color: var(--cream-soft);
+      text-transform: none;
+      margin-bottom: 0.3rem;
+      text-shadow: 0 2px 14px rgba(10, 8, 5, 0.5);
+    }
+
+    /* Sello giratorio · esquina superior derecha del hero, sutil */
+    .stamp {
+      position: absolute;
+      top: clamp(5.5rem, 11vh, 7.5rem);
+      right: var(--pad-x);
+      width: 130px; height: 130px;
+      z-index: 4;
+      color: var(--cream-soft);
+      opacity: 0.92;
+    }
+    .stamp svg.ring { width: 100%; height: 100%; animation: spin 24s linear infinite; }
+    .stamp .center {
+      position: absolute; inset: 0;
+      display: grid; place-items: center;
+      font-family: var(--f-script);
+      font-size: 1.4rem;
+      line-height: 1;
+      color: var(--cheese);
+      text-align: center;
+      text-shadow: 0 2px 12px rgba(10, 8, 5, 0.6);
+    }
+    .stamp .center small {
+      display: block;
+      font-family: var(--f-ui);
+      font-size: 0.5rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-top: 0.35rem;
+      color: var(--cream-soft);
+    }
+
+    /* =========================================================
+       8. STRIP MARQUEE
+       ========================================================= */
+    .strip {
+      background: var(--ink-deep);
+      color: var(--cream);
+      overflow: hidden;
+      position: relative;
+      border-top: 1px solid rgba(255, 252, 245, 0.08);
+      border-bottom: 1px solid rgba(255, 252, 245, 0.08);
+    }
+    .strip::before, .strip::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 90px;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .strip::before { left: 0;  background: linear-gradient(to right, var(--ink-deep), transparent); }
+    .strip::after  { right: 0; background: linear-gradient(to left,  var(--ink-deep), transparent); }
+
+    .marquee {
+      display: flex;
+      padding: 1.35rem 0;
+      animation: marquee 38s linear infinite;
+      width: max-content;
+    }
+    .marquee span {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.6rem;
+      padding-right: 1.6rem;
+      font-family: var(--f-display);
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(1.05rem, 1.4vw, 1.4rem);
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+    .marquee .dot {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--cheese);
+      flex-shrink: 0;
+    }
+
+    /* =========================================================
+       9. POR QUÉ ELEGIRNOS
+       ========================================================= */
+    .reasons { padding-block: var(--section-y); }
+    .section-head { text-align: center; margin-bottom: clamp(3rem, 6vw, 4.5rem); }
+    .section-head h2 {
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(2.2rem, 4.8vw, 3.6rem);
+      letter-spacing: -0.02em;
+      margin-top: 0.4rem;
+      max-width: 22ch;
+      margin-inline: auto;
+    }
+    .section-head p {
+      font-family: var(--f-body);
+      font-size: 1.18rem;
+      font-style: italic;
+      color: var(--ink-soft);
+      max-width: 50ch;
+      margin: 0.9rem auto 0;
+    }
+
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(1.6rem, 3vw, 2.6rem);
+    }
+    .reason {
+      text-align: center;
+      padding: 2.2rem 1.5rem 1.8rem;
+      border: 1px solid rgba(26, 20, 16, 0.08);
+      background: var(--cream-soft);
+      border-radius: 4px;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+      position: relative;
+    }
+    .reason:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 48px rgba(10, 8, 5, 0.16), 0 1px 0 rgba(255, 252, 245, 0.6) inset;
+    }
+    .reason-icon { width: 76px; height: 76px; margin: 0 auto 1.2rem; color: var(--cheese); }
+    .reason h3 {
+      font-style: italic;
+      font-weight: 700;
+      font-size: 1.45rem;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.6rem;
+    }
+    .reason p {
+      font-family: var(--f-body);
+      font-size: 1.08rem;
+      color: var(--ink-soft);
+      max-width: 28ch;
+      margin-inline: auto;
+    }
+    .reason-num {
+      position: absolute;
+      top: 0.85rem; left: 1.1rem;
+      font-family: var(--f-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.18em;
+      color: var(--cheese);
+      text-transform: uppercase;
+    }
+
+    /* =========================================================
+       10. CARTA · estilo menú impreso, dos columnas
+       ========================================================= */
+    .menu {
+      padding-block: var(--section-y);
+      background: linear-gradient(180deg, var(--cream) 0%, var(--cream-deep) 100%);
+      position: relative;
+    }
+    .carta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 4.5vw, 4rem);
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .carta-cat {
+      margin-bottom: clamp(2rem, 3.5vw, 3rem);
+    }
+    .cat-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      margin-bottom: 1.2rem;
+      border-bottom: 1px solid rgba(26, 20, 16, 0.18);
+      position: relative;
+    }
+    .cat-head::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0; right: 0;
+      height: 1px;
+      background: rgba(26, 20, 16, 0.18);
+    }
+    .cat-name {
+      font-family: var(--f-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(1.55rem, 2.6vw, 2rem);
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .cat-name svg {
+      width: 28px; height: 28px;
+      color: var(--cheese);
+    }
+    .cat-price-head {
+      font-family: var(--f-ui);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .cat-tag {
+      font-family: var(--f-script);
+      font-size: 1.55rem;
+      color: var(--cheese);
+      margin-left: 0.4rem;
+    }
+
+    .menu-list {
+      list-style: none;
+      padding: 0; margin: 0;
+    }
+    .menu-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 0.8rem;
+      padding: 0.5rem 0;
+      transition: color 0.3s var(--ease);
+    }
+    .menu-list li:hover { color: var(--cheese-d); }
+    .menu-list .name {
+      font-family: var(--f-body);
+      font-size: 1.2rem;
+      font-weight: 500;
+      flex-shrink: 0;
+      color: inherit;
+    }
+    .menu-list .name .star {
+      font-family: var(--f-script);
+      color: var(--cheese);
+      margin-left: 0.3rem;
+      font-size: 1.05em;
+    }
+    .menu-list .leader {
+      flex: 1;
+      border-bottom: 1.5px dotted rgba(26, 20, 16, 0.28);
+      height: 0.55em;
+    }
+    .menu-list .price {
+      font-family: var(--f-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--cheese-d);
+      flex-shrink: 0;
+    }
+    .menu-list .price-note {
+      font-family: var(--f-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      display: block;
+      text-align: right;
+      margin-top: 0.1rem;
+    }
+
+    .carta-foot {
+      max-width: 1080px;
+      margin: 2rem auto 0;
+      text-align: center;
+      padding-top: 1.5rem;
+      border-top: 1px dashed rgba(26, 20, 16, 0.2);
+      font-family: var(--f-body);
+      font-style: italic;
+      font-size: 1.08rem;
+      color: var(--ink-soft);
+    }
+    .carta-foot a { color: var(--cheese); text-decoration: underline; text-underline-offset: 4px; }
+
+    .legend {
+      max-width: 1080px;
+      margin: 1.6rem auto 0;
+      display: flex;
+      gap: 1.4rem;
+      justify-content: center;
+      font-family: var(--f-ui);
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      color: var(--ink-soft);
+    }
+    .legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+    .legend .star { font-family: var(--f-script); color: var(--cheese); font-size: 1.4em; line-height: 1; }
+
+    /* =========================================================
+       11. TIPS DE COCCIÓN · sección dark con dorado
+       ========================================================= */
+    .tips {
+      position: relative;
+      padding-block: clamp(5rem, 9vw, 7rem);
+      background: var(--ink-deep);
+      color: var(--cream-soft);
+      overflow: hidden;
+    }
+    .tips-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=1600&q=70&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.18;
+      filter: saturate(70%) contrast(120%);
+    }
+    .tips::after {
+      /* viñeta para foco */
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 30%, var(--ink-deep) 90%);
+      pointer-events: none;
+    }
+    .tips .wrap { position: relative; z-index: 2; }
+
+    .tips-head {
+      text-align: center;
+      margin-bottom: clamp(2.5rem, 5vw, 4rem);
+    }
+    .tips-eyebrow {
+      color: var(--cheese);
+      opacity: 1;
+    }
+    .tips-eyebrow::before, .tips-eyebrow::after {
+      background: var(--cheese);
+      opacity: 0.7;
+    }
+    .tips-script {
+      font-family: var(--f-script);
+      font-weight: 400;
+      font-size: clamp(3.6rem, 8vw, 6rem);
+      color: var(--cheese);
+      line-height: 0.95;
+      margin: 0.8rem 0 0.4rem;
+      font-style: normal;
+      text-shadow: 0 4px 20px rgba(212, 168, 42, 0.30);
+    }
+    .tips-sub {
+      font-family: var(--f-display);
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--cream-soft);
+      max-width: 32ch;
+      margin: 0 auto 0.6rem;
+    }
+    .tips-lead {
+      font-family: var(--f-body);
+      font-style: italic;
+      font-size: 1.18rem;
+      color: rgba(245, 240, 232, 0.78);
+      max-width: 50ch;
+      margin: 0 auto;
+    }
+
+    .tips-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: clamp(1.6rem, 3vw, 2.4rem);
+      align-items: stretch;
+    }
+    .tip-card {
+      background: rgba(20, 14, 8, 0.5);
+      border: 1px solid rgba(212, 168, 42, 0.32);
+      border-radius: 4px;
+      padding: clamp(1.6rem, 3vw, 2.4rem);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .tip-card h3 {
+      font-family: var(--f-display);
+      font-style: italic;
+      font-weight: 700;
+      color: var(--cheese);
+      font-size: clamp(1.45rem, 2.2vw, 1.75rem);
+      margin-bottom: 1.6rem;
+    }
+
+    .tip-flow {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: center;
+      gap: 1rem;
+    }
+    .tip-step {
+      text-align: center;
+      padding: 0.6rem 0.4rem;
+    }
+    .tip-step-icon {
+      width: 64px; height: 64px;
+      margin: 0 auto 0.85rem;
+      color: var(--cheese);
+      display: grid;
+      place-items: center;
+      background: rgba(212, 168, 42, 0.10);
+      border: 1px solid rgba(212, 168, 42, 0.40);
+      border-radius: 50%;
+    }
+    .tip-step-icon svg { width: 32px; height: 32px; }
+    .tip-step p {
+      font-family: var(--f-body);
+      font-size: 1.04rem;
+      color: rgba(245, 240, 232, 0.92);
+      line-height: 1.4;
+    }
+    .tip-step strong {
+      display: block;
+      font-family: var(--f-display);
+      font-style: italic;
+      font-weight: 700;
+      color: var(--cheese);
+      font-size: 1.25rem;
+    }
+    .tip-arrow {
+      color: var(--cheese);
+      width: 36px; height: 14px;
+    }
+
+    .tip-methods {
+      list-style: none;
+      padding: 0; margin: 0 0 1.4rem;
+      display: grid;
+      gap: 0.8rem;
+    }
+    .tip-methods li {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.65rem 0.9rem;
+      border-bottom: 1px dashed rgba(212, 168, 42, 0.30);
+      font-family: var(--f-display);
+      font-style: italic;
+      font-size: 1.32rem;
+      color: var(--cream-soft);
+    }
+    .tip-methods li:last-child { border-bottom: 0; }
+    .tip-methods .bullet {
+      color: var(--cheese);
+      font-size: 1.6em;
+      line-height: 0.5;
+    }
+    .tip-methods .icon {
+      width: 26px; height: 26px;
+      color: var(--cheese);
+      flex-shrink: 0;
+    }
+    .tip-note {
+      font-family: var(--f-script);
+      font-size: 1.7rem;
+      line-height: 1.1;
+      color: var(--cheese);
+      text-align: center;
+      margin-top: 0.6rem;
+    }
+
+    /* =========================================================
+       12. GUÍA DE CANTIDADES · parchment
+       ========================================================= */
+    .quantity {
+      padding-block: var(--section-y);
+      background: var(--cream-deep);
+      position: relative;
+    }
+    .parchment {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+      background:
+        radial-gradient(ellipse at 20% 10%, rgba(255,252,245,0.6), transparent 50%),
+        radial-gradient(ellipse at 90% 90%, rgba(212,168,42,0.12), transparent 50%),
+        var(--cream-soft);
+      border: 1px solid rgba(26, 20, 16, 0.16);
+      box-shadow:
+        inset 0 0 0 6px var(--cream-soft),
+        inset 0 0 0 7px rgba(26, 20, 16, 0.18),
+        0 18px 48px rgba(10, 8, 5, 0.14);
+      position: relative;
+    }
+    .parchment::before, .parchment::after {
+      content: '✺';
+      position: absolute;
+      color: var(--cheese);
+      font-size: 1.3rem;
+      opacity: 0.7;
+    }
+    .parchment::before { top: 14px; left: 18px; }
+    .parchment::after  { bottom: 14px; right: 18px; }
+
+    .quantity-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.2rem;
+    }
+    .qty-card {
+      text-align: center;
+      padding: 2rem 1rem 1.6rem;
+      border-left: 1px dashed rgba(26, 20, 16, 0.2);
+    }
+    .qty-card:first-child { border-left: 0; }
+    .qty-num {
+      font-family: var(--f-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      color: var(--cheese);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .qty-people {
+      font-family: var(--f-ui);
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 1.1rem;
+    }
+    .qty-grams {
+      font-family: var(--f-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: 1.55rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+    }
+    .qty-grams .unit { font-style: normal; font-size: 0.85rem; letter-spacing: 0.05em; color: var(--ink-soft); margin-left: 0.2rem; }
+    .qty-note {
+      font-family: var(--f-body);
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--ink-soft);
+      max-width: 22ch;
+      margin: 0.4rem auto 0;
+    }
+    .quantity-tip {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(26, 20, 16, 0.12);
+      text-align: center;
+      font-family: var(--f-body);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--ink-soft);
+    }
+    .quantity-tip strong {
+      font-family: var(--f-display);
+      font-style: italic;
+      color: var(--cheese);
+      font-weight: 700;
+    }
+
+    /* =========================================================
+       13. CÓMO PEDIR · 3 pasos
+       ========================================================= */
+    .steps { padding-block: var(--section-y); position: relative; }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(2rem, 4vw, 3.5rem);
+      margin-top: 3rem;
+      position: relative;
+    }
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 56px; left: 12%; right: 12%;
+      height: 1px;
+      border-top: 1.5px dashed rgba(212, 168, 42, 0.55);
+      z-index: 0;
+    }
+    .step { text-align: center; position: relative; z-index: 1; }
+    .step-num {
+      font-family: var(--f-display);
+      font-style: italic;
+      font-weight: 900;
+      font-size: clamp(4.5rem, 8vw, 6.5rem);
+      line-height: 0.9;
+      color: var(--cheese);
+      letter-spacing: -0.04em;
+      display: block;
+      position: relative;
+    }
+    .step-num::before {
+      content: '';
+      display: inline-block;
+      width: 36px; height: 36px;
+      background: var(--cream);
+      border-radius: 50%;
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+      box-shadow: 0 0 0 8px var(--cream);
+    }
+    .step h3 {
+      font-style: italic;
+      font-weight: 700;
+      font-size: 1.55rem;
+      letter-spacing: -0.01em;
+      margin: 1.1rem 0 0.55rem;
+    }
+    .step p {
+      font-family: var(--f-body);
+      font-size: 1.08rem;
+      color: var(--ink-soft);
+      max-width: 26ch;
+      margin: 0 auto;
+    }
+
+    /* =========================================================
+       14. TESTIMONIOS · papel rasgado
+       ========================================================= */
+    .testimonials {
+      padding-block: var(--section-y);
+      background: var(--cream-deep);
+      position: relative;
+    }
+    .quotes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(1.5rem, 3vw, 2.4rem);
+      margin-top: 1rem;
+    }
+    .quote {
+      background: var(--cream-soft);
+      padding: 2.4rem 1.8rem 2rem;
+      position: relative;
+      box-shadow: var(--shadow-card);
+      transform: rotate(var(--rot, -0.6deg));
+      transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+      clip-path: polygon(
+        0% 4%, 3% 0%, 18% 2%, 32% 0%, 48% 3%, 62% 0%, 78% 2%, 92% 0%, 100% 3%,
+        99% 18%, 100% 34%, 98% 50%, 100% 66%, 99% 82%, 100% 96%,
+        96% 100%, 82% 98%, 68% 100%, 52% 97%, 36% 100%, 22% 98%, 6% 100%, 0% 97%,
+        2% 82%, 0% 66%, 3% 50%, 0% 34%, 2% 18%
+      );
+    }
+    .quote:nth-child(2) { --rot: 0.5deg; transform: rotate(var(--rot)) translateY(12px); }
+    .quote:nth-child(3) { --rot: -0.4deg; }
+    .quote:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 24px 50px rgba(10, 8, 5, 0.18); }
+
+    .quote-mark {
+      font-family: var(--f-display);
+      font-style: italic;
+      font-weight: 900;
+      font-size: 4.5rem;
+      color: var(--cheese);
+      opacity: 0.35;
+      line-height: 0.6;
+      margin-bottom: 0.3rem;
+    }
+    .quote blockquote {
+      font-family: var(--f-body);
+      font-style: italic;
+      font-size: 1.25rem;
+      line-height: 1.45;
+      color: var(--ink);
+      margin: 0 0 1.4rem;
+      max-width: 24ch;
+    }
+    .quote cite {
+      display: block;
+      font-family: var(--f-ui);
+      font-size: 0.74rem;
+      font-style: normal;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cheese-d);
+    }
+    .quote cite small {
+      display: block;
+      font-size: 0.66rem;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      color: var(--ink-soft);
+      margin-top: 0.25rem;
+      opacity: 0.85;
+    }
+
+    /* =========================================================
+       15. NOSOTROS · banda ink (negro profundo) con texto crema y acentos queso
+       ========================================================= */
+    .about {
+      background: var(--ink-deep);
+      color: var(--cream-soft);
+      padding-block: clamp(5rem, 9vw, 7rem);
+      position: relative;
+      overflow: hidden;
+    }
+    .about::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: center;
+      position: relative; z-index: 1;
+    }
+    .about-eyebrow { color: var(--cream-soft); opacity: 0.85; }
+    .about h2 {
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      letter-spacing: -0.02em;
+      max-width: 18ch;
+      margin: 0.6rem 0 1.3rem;
+    }
+    .about h2 em { color: var(--cheese); font-style: italic; font-weight: 900; }
+    .about p {
+      font-family: var(--f-body);
+      font-size: 1.2rem;
+      line-height: 1.55;
+      color: rgba(255, 250, 240, 0.92);
+      max-width: 50ch;
+    }
+    .about p + p { margin-top: 1.1rem; }
+    .about-sign {
+      margin-top: 2rem;
+      font-family: var(--f-script);
+      font-size: 2.3rem;
+      color: var(--cheese);
+      line-height: 1;
+    }
+    .about-figure svg { width: 100%; height: auto; filter: drop-shadow(0 16px 32px rgba(0,0,0,0.18)); }
+
+    /* =========================================================
+       16. FOOTER
+       ========================================================= */
+    .footer {
+      background: var(--ink-deep);
+      color: var(--cream-soft);
+      padding: 0 0 2rem;
+      position: relative;
+    }
+    .footer-top {
+      height: 16px;
+      background: var(--cheese);
+      mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' preserveAspectRatio='none'><polygon points='0,0 8,16 16,0' fill='black'/></svg>") repeat-x;
+      -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' preserveAspectRatio='none'><polygon points='0,0 8,16 16,0' fill='black'/></svg>") repeat-x;
+      mask-size: 24px 16px;
+      -webkit-mask-size: 24px 16px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr 1fr;
+      gap: 2.5rem;
+      padding-top: 4rem;
+      padding-bottom: 3rem;
+    }
+    .footer .brand { color: var(--cream-soft); }
+    .footer-tag {
+      font-family: var(--f-body);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: rgba(245, 240, 232, 0.65);
+      margin-top: 1rem;
+      max-width: 30ch;
+    }
+    .footer h4 {
+      font-family: var(--f-ui);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--cheese);
+      margin-bottom: 1rem;
+    }
+    .footer ul { list-style: none; padding: 0; margin: 0; }
+    .footer li {
+      font-family: var(--f-body);
+      font-size: 1.08rem;
+      color: rgba(245, 240, 232, 0.78);
+      line-height: 1.7;
+    }
+    .footer li a { transition: color 0.3s var(--ease); }
+    .footer li a:hover { color: var(--cheese); }
+    .footer li strong {
+      font-family: var(--f-display);
+      font-style: italic;
+      font-weight: 700;
+      color: var(--cream-soft);
+    }
+    .footer-socials {
+      display: flex;
+      gap: 0.7rem;
+      margin-top: 1.4rem;
+    }
+    .footer-socials a {
+      width: 40px; height: 40px;
+      display: grid; place-items: center;
+      border: 1px solid rgba(212, 168, 42, 0.45);
+      border-radius: 50%;
+      color: var(--cheese);
+      transition: background 0.3s var(--ease), color 0.3s var(--ease), transform 0.3s var(--ease);
+    }
+    .footer-socials a:hover {
+      background: var(--cheese);
+      color: var(--ink-deep);
+      transform: translateY(-2px);
+    }
+    .footer-socials svg { width: 18px; height: 18px; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(245, 240, 232, 0.1);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-family: var(--f-ui);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, 0.5);
+    }
+
+    /* =========================================================
+       17. ANIMACIONES
+       ========================================================= */
+    @keyframes rise {
+      0%   { opacity: 0; transform: translateY(28px); filter: blur(2px); }
+      100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes pulse-soft {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.04); }
+    }
+    .stamp { animation: pulse-soft 3.6s var(--ease) infinite; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.001s !important; transition: none !important; }
+    }
+
+    /* =========================================================
+       18. RESPONSIVE
+       ========================================================= */
+    @media (max-width: 960px) {
+      /* Stack a una columna las grillas con ilustración */
+      .hero-grid,
+      .about-grid,
+      .tips-grid { grid-template-columns: 1fr; }
+
+      /* Grillas de 3-4 ítems compatibles a 2 cols */
+      .reasons-grid,
+      .quotes,
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      /* Grillas que serían "2+1" cojas → 1 col directa */
+      .steps-grid,
+      .quantity-grid {
+        grid-template-columns: 1fr;
+        gap: 1.4rem;
+      }
+      .steps-grid::before { display: none; }
+      .qty-card {
+        border-left: 0;
+        border-top: 1px dashed rgba(26, 20, 16, 0.2);
+        padding: 1.4rem 1rem;
+      }
+      .qty-card:first-child { border-top: 0; }
+
+      /* Carta queda 2 cols (estilo menú impreso) */
+      .carta-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.6rem;
+      }
+
+      /* Tip flow vertical con flecha rotada */
+      .tip-flow {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+      }
+      .tip-arrow { transform: rotate(90deg); justify-self: center; }
+
+      /* Hero / brand / stamp tablet */
+      .hero-ornament { display: none; }
+      /* En el layout centrado el stamp se pisa con el contenido — lo ocultamos en mobile */
+      .stamp { display: none; }
+      .brand-text .lf { font-size: 1.65rem; }
+      .brand-text .arg { font-size: 0.78rem; margin-left: 1.4em; }
+      .brand-lg .brand-text .lf { font-size: 2.6rem; }
+      .brand-lg .brand-text .arg { font-size: 1.15rem; margin-left: 1.8em; }
+      .brand-lg .brand-mark { width: 50px; height: 50px; }
+
+      /* === MOBILE NAV: panel deslizable + burger === */
+      .nav { z-index: 70; }
+      /* Reagrupamos: brand a la izquierda · [WhatsApp][Burger] juntos a la derecha */
+      .nav-inner {
+        justify-content: flex-start;
+        gap: 0.45rem;
+      }
+      .nav-cta { margin-left: auto; }
+      .nav-burger { display: inline-flex; }
+      .nav-panel {
+        display: block;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--cream);
+        z-index: 60;
+        padding: 5.5rem 1.6rem 2rem;
+        transform: translateY(-100%);
+        transition: transform 0.5s var(--ease), visibility 0.5s var(--ease);
+        visibility: hidden;
+        overflow-y: auto;
+      }
+      .nav-panel.open {
+        transform: translateY(0);
+        visibility: visible;
+      }
+      .nav-panel .nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        font-family: var(--f-display);
+        font-style: italic;
+        font-weight: 700;
+        font-size: clamp(1.7rem, 6vw, 2.2rem);
+        letter-spacing: -0.01em;
+        text-transform: none;
+      }
+      .nav-panel .nav-links a {
+        display: block;
+        padding: 1rem 0;
+        border-bottom: 1px dashed rgba(26, 20, 16, 0.18);
+        opacity: 1;
+        color: var(--ink);
+      }
+      .nav-panel .nav-links a:hover { color: var(--cheese); }
+      .nav-panel .nav-links a::after { display: none; }
+      /* Decoración del panel: pequeño ornamento al fondo */
+      .nav-panel::after {
+        content: 'La Famiglia';
+        display: block;
+        font-family: var(--f-script);
+        font-size: 2.2rem;
+        color: var(--cheese);
+        opacity: 0.4;
+        margin-top: 2.5rem;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 620px) {
+      /* Todo a 1 col */
+      .reasons-grid,
+      .carta-grid,
+      .quotes,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      /* === CARTA mobile: stackeada, sin dotted leader === */
+      .carta-cat { margin-bottom: 1.8rem; }
+      .cat-head {
+        padding-bottom: 0.6rem;
+        margin-bottom: 0.4rem;
+      }
+      .cat-name {
+        font-size: 1.4rem;
+        gap: 0.5rem;
+      }
+      .cat-name svg { width: 22px; height: 22px; }
+      .cat-tag { font-size: 1.3rem; }
+      .cat-price-head { display: none; } /* No aporta info en mobile, el precio está al lado */
+
+      .menu-list li {
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.4rem 0.8rem;
+        padding: 0.7rem 0;
+        border-bottom: 1px dotted rgba(26, 20, 16, 0.18);
+      }
+      .menu-list li:last-child { border-bottom: 0; }
+      .menu-list .name {
+        font-size: 1.05rem;
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      .menu-list .leader { display: none; } /* El dotted leader ocupa demasiado en mobile */
+      .menu-list .price {
+        font-size: 1.12rem;
+        flex-shrink: 0;
+        margin-left: auto;
+      }
+
+      /* === HERO mobile === */
+      .hero { padding-top: clamp(6rem, 12vh, 8.5rem); }
+      .hero-title {
+        font-size: clamp(2.2rem, 9vw, 3.6rem);
+        line-height: 1;
+      }
+      .hero-script { font-size: clamp(1.7rem, 7vw, 2.6rem); }
+      .hero-sub { font-size: 1.08rem; margin-top: 1.1rem; }
+      .hero-ctas { gap: 0.6rem; margin-top: 1.8rem; }
+      .btn { padding: 0.85rem 1.3rem; font-size: 0.86rem; }
+
+      /* Hero-meta de flex a grid auto-fit (mejor reparto) */
+      .hero-meta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+        padding-top: 1.2rem;
+      }
+      .hero-meta strong { font-size: 1.25rem; }
+
+      /* Stamp más chico y bien anclado */
+      .stamp { width: 84px; height: 84px; top: -4px; right: -2px; }
+      .stamp .center { font-size: 0.92rem; line-height: 0.95; }
+      .stamp .center small { font-size: 0.42rem; letter-spacing: 0.18em; margin-top: 0.25rem; }
+
+      /* Quantity-grid también a 1 col */
+      .quantity-grid { grid-template-columns: 1fr; }
+      .qty-card { padding: 1.5rem 0.5rem; }
+      .qty-num { font-size: 3.4rem; }
+
+      /* Step numbers más contenidos */
+      .step-num { font-size: clamp(3.6rem, 16vw, 5rem); }
+      .step h3 { font-size: 1.4rem; }
+
+      /* Section heads y titulares */
+      .section-head h2 { font-size: clamp(1.9rem, 7vw, 2.6rem); }
+      .section-head { margin-bottom: 2.2rem; }
+      .section-head p { font-size: 1.05rem; }
+
+      /* Tips */
+      .tips-script { font-size: clamp(3rem, 11vw, 4rem); }
+      .tips-sub { font-size: 1.15rem; }
+      .tips-lead { font-size: 1.05rem; }
+      .tip-card {
+        padding: 1.4rem 1.2rem;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      }
+      .tip-card h3 { font-size: 1.35rem; margin-bottom: 1.2rem; }
+      .tip-step-icon { width: 56px; height: 56px; }
+      .tip-step-icon svg { width: 28px; height: 28px; }
+      .tip-methods {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1.4rem;
+        display: flex;
+        gap: 0.8rem;
+        flex-direction: column;
+        align-items: center;
+      }
+      .tip-methods li { font-size: 1.15rem; padding: 0.55rem 0.5rem; }
+      .tip-note { font-size: 1.4rem; }
+
+      /* Parchment con bordes más sutiles */
+      .parchment {
+        padding: 1.8rem 1.2rem;
+        box-shadow:
+          inset 0 0 0 4px var(--cream-soft),
+          inset 0 0 0 5px rgba(26, 20, 16, 0.18),
+          0 12px 32px rgba(10, 8, 5, 0.14);
+      }
+      .parchment::before, .parchment::after { font-size: 1rem; }
+      .parchment::before { top: 10px; left: 12px; }
+      .parchment::after { bottom: 10px; right: 12px; }
+
+      /* About */
+      .about h2 { font-size: clamp(2rem, 7.5vw, 2.6rem); }
+      .about p { font-size: 1.08rem; }
+      .about-sign { font-size: 1.85rem; margin-top: 1.5rem; }
+
+      /* Testimonios menos rotación (se ven mejor en mobile) */
+      .quote { padding: 1.8rem 1.4rem 1.6rem; }
+      .quote, .quote:nth-child(2), .quote:nth-child(3) {
+        transform: rotate(0deg);
+      }
+      .quote blockquote { font-size: 1.15rem; max-width: none; }
+
+      /* Nav */
+      .nav-cta { padding: 0.55rem; font-size: 0.78rem; gap: 0; }
+      .nav-cta span { display: none; }
+      .nav-cta svg { width: 18px; height: 18px; }
+      .nav-inner { gap: 0.5rem; padding: 0.8rem 0; }
+      .brand-text .lf { font-size: 1.55rem; }
+      .brand-text .arg { font-size: 0.74rem; }
+      .brand-mark { width: 34px; height: 34px; }
+
+      /* Footer */
+      .footer-grid { gap: 2rem; padding-top: 3rem; padding-bottom: 2rem; }
+      .brand-lg .brand-text .lf { font-size: 2.1rem; }
+      .brand-lg .brand-text .arg { font-size: 1rem; }
+      .brand-lg .brand-mark { width: 42px; height: 42px; }
+
+      /* ==============================================================
+         CONTAINERS CENTRADOS EN MOBILE
+         (todos como flexbox column · excluye .menu y .tips por requerimiento)
+         ============================================================== */
+
+      /* Containers principales → flex column centrado */
+      .hero-grid,
+      .about-grid,
+      .reasons-grid,
+      .steps-grid,
+      .quantity-grid,
+      .quotes,
+      .footer-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.6rem;
+      }
+
+      /* HERO · copy con todos sus elementos centrados */
+      .hero-copy {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        max-width: 540px;
+        width: 100%;
+      }
+      .hero-eyebrow,
+      .hero-ctas { justify-content: center; }
+      .hero-meta {
+        width: 100%;
+        place-items: center;
+        text-align: center;
+      }
+      .hero-meta > div { text-align: center; }
+      /* ABOUT · texto y firma centrados */
+      .about-grid > div:first-of-type {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        max-width: 540px;
+        width: 100%;
+      }
+      .about-eyebrow { justify-content: center; }
+      .about h2,
+      .about p { margin-inline: auto; }
+      .about-figure {
+        width: 100%;
+        max-width: 380px;
+        margin-inline: auto;
+      }
+
+      /* CARDS · ancho consistente y centradas dentro del container */
+      .reason,
+      .step,
+      .qty-card,
+      .quote {
+        width: 100%;
+        max-width: 480px;
+      }
+
+      /* FOOTER · cada columna centrada */
+      .footer-grid {
+        text-align: center;
+      }
+      .footer-grid > * {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+        max-width: 360px;
+      }
+      .footer .brand,
+      .footer-socials { justify-content: center; }
+      .footer-tag { margin-inline: auto; }
+      .footer ul { width: 100%; }
+      .footer li { text-align: center; }
+
+      /* Footer-bottom totalmente centrado */
+      .footer-bottom {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.5rem;
+      }
+    }
+
+    /* Pantallas muy chicas (iPhone SE / 360–380px) */
+    @media (max-width: 380px) {
+      .hero-title { font-size: 2rem; }
+      .hero-script { font-size: 1.6rem; }
+      .stamp { width: 72px; height: 72px; }
+      .stamp .center { font-size: 0.78rem; }
+      .stamp .center small { font-size: 0.36rem; }
+      .nav-inner { padding: 0.7rem 0; }
+      .brand-text .lf { font-size: 1.35rem; }
+      .brand-text .arg { font-size: 0.65rem; margin-left: 1.2em; }
+      .brand-mark { width: 30px; height: 30px; }
+      .nav-burger { width: 40px; height: 40px; margin-left: 0; }
+      .menu-list .name { font-size: 1rem; }
+      .menu-list .price { font-size: 1.05rem; }
+      .step-num { font-size: 3.4rem; }
+      .qty-num { font-size: 3rem; }
+    }
+
+    /* Block scroll cuando el panel mobile está abierto */
+    body.menu-open { overflow: hidden; }
+  </style>
+</head>
+<body>
+
+  <!-- ======== GRANO sobre todo el documento ======== -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- =====================================================================
+       SVG REUTILIZABLES · símbolo del logo (chef hat)
+       ===================================================================== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="chefhat" viewBox="0 0 60 60">
+      <!-- Tres puffs clásicos del toque -->
+      <ellipse cx="18" cy="22" rx="10" ry="11" fill="currentColor"/>
+      <ellipse cx="30" cy="15" rx="11" ry="12" fill="currentColor"/>
+      <ellipse cx="42" cy="22" rx="10" ry="11" fill="currentColor"/>
+      <!-- cuerpo / banda superior -->
+      <rect x="12" y="20" width="36" height="20" fill="currentColor"/>
+      <!-- banda inferior con pliegues -->
+      <rect x="10" y="38" width="40" height="13" rx="1.5" fill="currentColor"/>
+      <line x1="20" y1="38" x2="20" y2="51" stroke="var(--hat-pleat)" stroke-width="1.5"/>
+      <line x1="30" y1="38" x2="30" y2="51" stroke="var(--hat-pleat)" stroke-width="1.5"/>
+      <line x1="40" y1="38" x2="40" y2="51" stroke="var(--hat-pleat)" stroke-width="1.5"/>
+    </symbol>
+  </svg>
+
+  <!-- ======== 1. NAV ======== -->
+  <header class="nav" id="nav">
+    <div class="wrap nav-inner">
+      <a href="#top" class="brand" aria-label="La Famiglia Argañaraz · ir al inicio">
+        <svg class="brand-mark"><use href="#chefhat"/></svg>
+        <span class="brand-text">
+          <span class="lf">La Famiglia</span>
+          <span class="arg">Argañaraz</span>
+        </span>
+      </a>
+
+      <nav class="nav-panel" id="navPanel" aria-label="Principal">
+        <ul class="nav-links">
+          <li><a href="#carta">Carta</a></li>
+          <li><a href="#tips">Tips</a></li>
+          <li><a href="#pedir">Cómo Pedir</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <a class="nav-cta" href="https://wa.me/543574432907" target="_blank" rel="noopener" aria-label="Pedir por WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.6.1-1.7-.8-2.8-1.5-3.9-3.4-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2.1 3.2 5 4.4.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.6-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3z"/>
+          <path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.7 1.4 5.7 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.3zM12 21.8c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.3C2.1 6.6 6.5 2.2 12 2.2c2.6 0 5.1 1 7 2.9 1.9 1.9 2.9 4.4 2.9 7-.1 5.4-4.5 9.8-9.9 9.8z"/>
+        </svg>
+        <span>Pedir por WhatsApp</span>
+      </a>
+
+      <!-- Botón hamburguesa: solo visible <960px -->
+      <button class="nav-burger" id="navBurger" aria-controls="navPanel" aria-expanded="false" aria-label="Abrir menú">
+        <svg class="burger-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M3 6 H 21 M3 12 H 21 M3 18 H 21"/>
+        </svg>
+        <svg class="burger-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M5 5 L 19 19 M19 5 L 5 19"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ======== 2. HERO ======== -->
+  <section class="hero" id="top">
+    <!-- Foto de fondo full-bleed (Unsplash · Macarena Moraga) -->
+    <img class="hero-bg"
+         src="https://images.unsplash.com/photo-1608665000007-990496020c73?w=2000&q=85&auto=format&fit=crop"
+         alt=""
+         aria-hidden="true"
+         loading="eager"
+         decoding="async" />
+    <!-- Overlay oscuro para legibilidad del texto -->
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <!-- Ornamentos sutiles en las esquinas -->
+    <svg class="hero-ornament tl" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+      <path d="M2 2 H 60" /> <path d="M2 2 V 60" />
+      <path d="M2 2 C 30 14, 14 30, 60 60" stroke-dasharray="2 4"/>
+      <circle cx="2" cy="2" r="3" fill="currentColor" stroke="none"/>
+      <path d="M16 18 q 6 -10 16 -6 q -2 10 -10 12 q -8 0 -6 -6Z" fill="currentColor" opacity="0.4" stroke="none"/>
+    </svg>
+    <svg class="hero-ornament tr" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+      <path d="M2 2 H 60" /> <path d="M2 2 V 60" />
+      <path d="M2 2 C 30 14, 14 30, 60 60" stroke-dasharray="2 4"/>
+      <circle cx="2" cy="2" r="3" fill="currentColor" stroke="none"/>
+      <path d="M16 18 q 6 -10 16 -6 q -2 10 -10 12 q -8 0 -6 -6Z" fill="currentColor" opacity="0.4" stroke="none"/>
+    </svg>
+    <svg class="hero-ornament bl" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+      <path d="M2 2 H 60" /> <path d="M2 2 V 60" />
+      <path d="M2 2 C 30 14, 14 30, 60 60" stroke-dasharray="2 4"/>
+      <circle cx="2" cy="2" r="3" fill="currentColor" stroke="none"/>
+    </svg>
+    <svg class="hero-ornament br" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+      <path d="M2 2 H 60" /> <path d="M2 2 V 60" />
+      <path d="M2 2 C 30 14, 14 30, 60 60" stroke-dasharray="2 4"/>
+      <circle cx="2" cy="2" r="3" fill="currentColor" stroke="none"/>
+    </svg>
+
+    <!-- Sello giratorio · esquina superior derecha -->
+    <div class="stamp" aria-hidden="true">
+      <svg class="ring" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <path id="circle-text" d="M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0"/>
+        </defs>
+        <circle cx="100" cy="100" r="92" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 3" opacity="0.6"/>
+        <circle cx="100" cy="100" r="78" fill="none" stroke="currentColor" stroke-width="1.2"/>
+        <text font-family="DM Sans, sans-serif" font-size="14" letter-spacing="6" fill="currentColor" font-weight="500">
+          <textPath href="#circle-text" startOffset="0">HECHO HOY · FRESCO SIEMPRE · HECHO HOY · </textPath>
+        </text>
+      </svg>
+      <div class="center">
+        La<br/>Famiglia
+        <small>Argañaraz</small>
+      </div>
+    </div>
+
+    <!-- Contenido centrado -->
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow hero-eyebrow">Pastas frescas artesanales · Liceo Procrear</span>
+
+        <h1 class="hero-title">
+          Como las hacía<br/>
+          la <span class="em">famiglia</span>
+        </h1>
+        <span class="hero-script">Argañaraz</span>
+
+        <p class="hero-sub">
+          Elaboradas a mano, todos los días, con los mismos ingredientes de siempre.
+        </p>
+
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#carta">Ver la carta</a>
+          <a class="btn btn-ghost" href="#contacto">
+            Cómo llegar
+            <svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <path d="M1 6h13M9 1l5 5-5 5"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="hero-meta">
+          <div>
+            <strong>06:00 hs</strong>
+            La masa empieza al alba
+          </div>
+          <div>
+            <strong>Sec. 8</strong>
+            Liceo Procrear · Mz 46
+          </div>
+          <div>
+            <strong>0 km</strong>
+            Del local a tu mesa
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== 3. STRIP MARQUEE ======== -->
+  <section class="strip" aria-hidden="true">
+    <div class="marquee">
+      <span>Sin conservantes <i class="dot"></i> Relleno generoso <i class="dot"></i> Masa al huevo <i class="dot"></i> Elaboración a la vista <i class="dot"></i> Para freezar también <i class="dot"></i> Envíos al barrio <i class="dot"></i> La Famiglia Argañaraz <i class="dot"></i></span>
+      <span>Sin conservantes <i class="dot"></i> Relleno generoso <i class="dot"></i> Masa al huevo <i class="dot"></i> Elaboración a la vista <i class="dot"></i> Para freezar también <i class="dot"></i> Envíos al barrio <i class="dot"></i> La Famiglia Argañaraz <i class="dot"></i></span>
+    </div>
+  </section>
+
+  <!-- ======== 4. POR QUÉ ELEGIRNOS ======== -->
+  <section class="reasons">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="divider">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1l2.5 6.5L21 8l-5 4.5 1.5 7L12 16l-5.5 3.5L8 12.5 3 8l6.5-.5L12 1z"/></svg>
+        </div>
+        <span class="eyebrow solo">Por qué elegirnos</span>
+        <h2>Tres cosas que hacen la diferencia</h2>
+        <p>No es marketing. Es la forma en que se hicieron siempre las pastas en casa.</p>
+      </div>
+
+      <div class="reasons-grid">
+        <article class="reason">
+          <span class="reason-num">N° 01</span>
+          <svg class="reason-icon" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M30 22 h36"/>
+            <path d="M34 22 v-6 a4 4 0 0 1 4 -4 h20 a4 4 0 0 1 4 4 v6"/>
+            <rect x="26" y="22" width="44" height="60" rx="6"/>
+            <path d="M26 36 h44"/>
+            <path d="M40 50 q 4 -10, 8 -16 M48 50 q -2 -10, -4 -18 M56 50 q -2 -10, 0 -18"/>
+            <path d="M36 64 q 12 -8, 24 0"/>
+            <circle cx="48" cy="14" r="1.5" fill="currentColor"/>
+          </svg>
+          <h3>Ingredientes que ves</h3>
+          <p>Elaboramos a la vista. Sabés exactamente qué lleva cada pasta.</p>
+        </article>
+
+        <article class="reason">
+          <span class="reason-num">N° 02</span>
+          <svg class="reason-icon" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <ellipse cx="48" cy="58" rx="22" ry="6" fill="currentColor" opacity="0.25" stroke="none"/>
+            <path d="M28 56 q -4 -16, 8 -24 q 6 -2, 8 4 q 0 4, -2 6 q 6 -4, 10 -2 q 4 4, 0 8 q 4 -2, 6 2 q 2 4, -2 6"/>
+            <path d="M68 56 q 4 -16, -8 -24 q -6 -2, -8 4 q 0 4, 2 6"/>
+            <path d="M30 60 q 18 -10, 36 0"/>
+            <path d="M34 64 q 14 -6, 28 0"/>
+            <path d="M40 26 q 2 -6, 8 -6"/>
+            <circle cx="50" cy="20" r="1.4" fill="currentColor"/>
+            <circle cx="56" cy="22" r="1.2" fill="currentColor"/>
+            <circle cx="44" cy="22" r="1.2" fill="currentColor"/>
+          </svg>
+          <h3>Hecho a mano, cada día</h3>
+          <p>Sin procesos industriales. La misma receta de siempre.</p>
+        </article>
+
+        <article class="reason">
+          <span class="reason-num">N° 03</span>
+          <svg class="reason-icon" viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M48 14 v68 M48 14 l-6 6 M48 14 l6 6 M48 82 l-6 -6 M48 82 l6 -6"/>
+            <path d="M18 32 l60 32 M18 32 l2 8 M18 32 l8 -2 M78 64 l-2 -8 M78 64 l-8 2"/>
+            <path d="M78 32 l-60 32 M78 32 l-2 8 M78 32 l-8 -2 M18 64 l2 -8 M18 64 l8 2"/>
+            <circle cx="48" cy="48" r="4" fill="currentColor"/>
+          </svg>
+          <h3>Se puede freezar</h3>
+          <p>Comprá para la semana. La calidad se mantiene perfecta.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== 5. CARTA · estilo menú impreso ======== -->
+  <section class="menu" id="carta">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="divider">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="12" r="2"/><circle cx="20" cy="12" r="2"/></svg>
+        </div>
+        <span class="eyebrow solo">La carta</span>
+        <h2>Carta de pastas</h2>
+        <p>Selección permanente. Recomendamos reservar tu pedido por WhatsApp con un día de anticipación.</p>
+      </div>
+
+      <div class="carta-grid">
+
+        <!-- ===== Columna izquierda ===== -->
+        <div>
+          <article class="carta-cat">
+            <div class="cat-head">
+              <span class="cat-name">
+                <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                  <circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 2"/>
+                  <circle cx="16" cy="16" r="8" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.6"/>
+                  <circle cx="16" cy="16" r="2" fill="currentColor"/>
+                </svg>
+                Sorrentinos
+              </span>
+              <span class="cat-price-head">Precio</span>
+            </div>
+            <ul class="menu-list">
+              <li>
+                <span class="name">Muzzarella y jamón <span class="star">★</span></span>
+                <span class="leader"></span>
+                <span class="price">$11.000</span>
+              </li>
+              <li>
+                <span class="name">Cuatro quesos</span>
+                <span class="leader"></span>
+                <span class="price">$11.000</span>
+              </li>
+              <li>
+                <span class="name">Calabaza y muzzarella</span>
+                <span class="leader"></span>
+                <span class="price">$11.000</span>
+              </li>
+              <li>
+                <span class="name">Ricota, jamón y nuez</span>
+                <span class="leader"></span>
+                <span class="price">$11.000</span>
+              </li>
+              <li>
+                <span class="name">Ricota, rúcula y parmesano</span>
+                <span class="leader"></span>
+                <span class="price">$11.000</span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="carta-cat">
+            <div class="cat-head">
+              <span class="cat-name">
+                <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                  <path d="M4 22 L 16 6 L 28 22 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+                  <circle cx="16" cy="18" r="2" fill="currentColor"/>
+                </svg>
+                Sorrentinos <span class="cat-tag">gourmet</span>
+              </span>
+              <span class="cat-price-head">Precio</span>
+            </div>
+            <ul class="menu-list">
+              <li>
+                <span class="name">Bondiola braseada</span>
+                <span class="leader"></span>
+                <span class="price">$15.000</span>
+              </li>
+              <li>
+                <span class="name">Hongos</span>
+                <span class="leader"></span>
+                <span class="price">$16.000</span>
+              </li>
+              <li>
+                <span class="name">Salmón <span class="star">★</span></span>
+                <span class="leader"></span>
+                <span class="price">$19.500</span>
+              </li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- ===== Columna derecha ===== -->
+        <div>
+          <article class="carta-cat">
+            <div class="cat-head">
+              <span class="cat-name">
+                <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                  <rect x="4" y="8" width="24" height="16" rx="1" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 2"/>
+                  <line x1="4" y1="16" x2="28" y2="16" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/>
+                  <line x1="16" y1="8" x2="16" y2="24" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/>
+                </svg>
+                Ravioles
+              </span>
+              <span class="cat-price-head">Precio</span>
+            </div>
+            <ul class="menu-list">
+              <li>
+                <span class="name">Carne y verdura <span class="star">★</span></span>
+                <span class="leader"></span>
+                <span class="price">$9.500</span>
+              </li>
+              <li>
+                <span class="name">Pollo y verdura</span>
+                <span class="leader"></span>
+                <span class="price">$9.500</span>
+              </li>
+              <li>
+                <span class="name">Ricota y jamón</span>
+                <span class="leader"></span>
+                <span class="price">$9.500</span>
+              </li>
+              <li>
+                <span class="name">Calabaza y muzzarella</span>
+                <span class="leader"></span>
+                <span class="price">$9.500</span>
+              </li>
+              <li>
+                <span class="name">Espinaca y ricota</span>
+                <span class="leader"></span>
+                <span class="price">$9.500</span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="carta-cat">
+            <div class="cat-head">
+              <span class="cat-name">
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                  <path d="M4 12 q 6 4, 12 0 q 6 -4, 12 0"/>
+                  <path d="M4 18 q 6 4, 12 0 q 6 -4, 12 0"/>
+                  <path d="M4 24 q 6 4, 12 0 q 6 -4, 12 0"/>
+                </svg>
+                Tallarines
+              </span>
+              <span class="cat-price-head">Precio</span>
+            </div>
+            <ul class="menu-list">
+              <li>
+                <span class="name">1 kg</span>
+                <span class="leader"></span>
+                <span class="price">$8.500</span>
+              </li>
+              <li>
+                <span class="name">½ kg</span>
+                <span class="leader"></span>
+                <span class="price">$5.000</span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="carta-cat">
+            <div class="cat-head">
+              <span class="cat-name">
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <ellipse cx="11" cy="14" rx="5" ry="3.5"/>
+                  <ellipse cx="21" cy="14" rx="5" ry="3.5"/>
+                  <ellipse cx="16" cy="22" rx="5" ry="3.5"/>
+                  <line x1="8" y1="14" x2="14" y2="14" stroke-width="1"/>
+                  <line x1="18" y1="14" x2="24" y2="14" stroke-width="1"/>
+                  <line x1="13" y1="22" x2="19" y2="22" stroke-width="1"/>
+                </svg>
+                Ñoquis
+              </span>
+              <span class="cat-price-head">Precio</span>
+            </div>
+            <ul class="menu-list">
+              <li>
+                <span class="name">1 kg</span>
+                <span class="leader"></span>
+                <span class="price">$10.000</span>
+              </li>
+            </ul>
+          </article>
+        </div>
+
+      </div>
+
+      <p class="legend">
+        <span><span class="star">★</span> Más pedido</span>
+      </p>
+
+      <p class="carta-foot">
+        ¿Buscás algo especial? También tenemos <a href="https://wa.me/543574432907" target="_blank" rel="noopener">canelones, lasagna y panzotti</a> bajo encargo.
+      </p>
+    </div>
+  </section>
+
+  <!-- ======== 6. TIPS DE COCCIÓN ======== -->
+  <section class="tips" id="tips">
+    <div class="tips-bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="tips-head">
+        <span class="eyebrow solo tips-eyebrow">La nonna sabe</span>
+        <div class="tips-script">tips de cocción</div>
+        <p class="tips-sub">para nuestras pastas rellenas</p>
+        <p class="tips-lead">Para que tus ravioles y sorrentinos salgan perfectos, todas las veces.</p>
+      </div>
+
+      <div class="tips-grid">
+        <!-- Tarjeta 1: Flujo del freezer al plato -->
+        <article class="tip-card">
+          <h3>Cómo conservar y cocinar</h3>
+          <div class="tip-flow">
+            <div class="tip-step">
+              <div class="tip-step-icon">
+                <!-- copo de nieve -->
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M16 4 v24 M16 4 l-3 3 M16 4 l3 3 M16 28 l-3 -3 M16 28 l3 -3"/>
+                  <path d="M5 10 l22 12 M5 10 l1 4 M5 10 l4 -1 M27 22 l-1 -4 M27 22 l-4 1"/>
+                  <path d="M27 10 l-22 12 M27 10 l-1 4 M27 10 l-4 -1 M5 22 l1 -4 M5 22 l4 1"/>
+                </svg>
+              </div>
+              <p>Apenas las recibís<strong>al freezer</strong></p>
+            </div>
+
+            <svg class="tip-arrow" viewBox="0 0 36 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <path d="M2 7 H 32 M 26 2 L 32 7 L 26 12"/>
+            </svg>
+
+            <div class="tip-step">
+              <div class="tip-step-icon">
+                <!-- olla con vapor -->
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M6 14 h20 v8 a4 4 0 0 1 -4 4 h-12 a4 4 0 0 1 -4 -4 z"/>
+                  <path d="M4 14 h24"/>
+                  <path d="M10 8 q 2 -3, 0 -5 M16 8 q 2 -3, 0 -5 M22 8 q 2 -3, 0 -5"/>
+                </svg>
+              </div>
+              <p>A la olla<strong>congeladas</strong></p>
+            </div>
+
+            <svg class="tip-arrow" viewBox="0 0 36 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <path d="M2 7 H 32 M 26 2 L 32 7 L 26 12"/>
+            </svg>
+
+            <div class="tip-step">
+              <div class="tip-step-icon">
+                <!-- reloj -->
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <circle cx="16" cy="17" r="11"/>
+                  <path d="M16 11 v6 l4 2"/>
+                  <path d="M14 4 h4"/>
+                </svg>
+              </div>
+              <p>Esperá<strong>8 minutos</strong></p>
+            </div>
+          </div>
+          <p class="tip-note">¡Y a disfrutar!</p>
+        </article>
+
+        <!-- Tarjeta 2: Métodos de cocción -->
+        <article class="tip-card">
+          <h3>Métodos de cocción</h3>
+          <ul class="tip-methods">
+            <li>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <path d="M4 12 h16 v6 a3 3 0 0 1 -3 3 h-10 a3 3 0 0 1 -3 -3 z"/>
+                <path d="M3 12 h18"/>
+                <path d="M9 8 q 1 -2, 0 -4 M15 8 q 1 -2, 0 -4"/>
+              </svg>
+              <span class="bullet">·</span> Hervidas
+            </li>
+            <li>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <ellipse cx="11" cy="14" rx="8" ry="3"/>
+                <path d="M3 14 v2 a 8 3 0 0 0 16 0 v-2"/>
+                <path d="M19 13 h4"/>
+              </svg>
+              <span class="bullet">·</span> A la plancha
+            </li>
+            <li>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <path d="M5 18 q 2 -4, 7 -4 q 5 0, 7 4"/>
+                <path d="M5 18 v2 h14 v-2"/>
+                <path d="M9 12 q 1 -2, 0 -4 M14 12 q 1 -2, 0 -4"/>
+              </svg>
+              <span class="bullet">·</span> Fritas
+            </li>
+            <li>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <path d="M3 14 h18"/>
+                <path d="M5 14 v6 M9 14 v6 M13 14 v6 M17 14 v6"/>
+                <path d="M5 10 q 2 -4, 6 -2 q 4 2, 8 -2"/>
+              </svg>
+              <span class="bullet">·</span> A la parrilla
+            </li>
+          </ul>
+          <p class="tip-note">No te quedes con lo tradicional</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== 7. GUÍA DE CANTIDADES ======== -->
+  <section class="quantity">
+    <div class="wrap">
+      <div class="parchment">
+        <div class="section-head" style="margin-bottom: 0;">
+          <div class="divider">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 L 14 10 L 22 12 L 14 14 L 12 22 L 10 14 L 2 12 L 10 10 Z"/></svg>
+          </div>
+          <span class="eyebrow solo">Guía de cantidades</span>
+          <h2>¿Cuánto comprar?</h2>
+        </div>
+
+        <div class="quantity-grid">
+          <div class="qty-card">
+            <div class="qty-num">2</div>
+            <div class="qty-people">Personas</div>
+            <div class="qty-grams">600 <span class="unit">g</span></div>
+            <p class="qty-note">Una docena de ravioles cada uno, con buena salsa.</p>
+          </div>
+
+          <div class="qty-card">
+            <div class="qty-num">4</div>
+            <div class="qty-people">Personas</div>
+            <div class="qty-grams">1.200 <span class="unit">g</span></div>
+            <p class="qty-note">El clásico almuerzo de domingo, con sobras para el lunes.</p>
+          </div>
+
+          <div class="qty-card">
+            <div class="qty-num">6+</div>
+            <div class="qty-people">Personas</div>
+            <div class="qty-grams">2.000 <span class="unit">g</span></div>
+            <p class="qty-note">Mesa larga, hijos, suegros, primos. Sumá una lasagna.</p>
+          </div>
+        </div>
+
+        <p class="quantity-tip">
+          <strong>Consejo de la casa:</strong> los ñoquis abultan más — calculá un 20% menos por persona.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== 8. CÓMO PEDIR ======== -->
+  <section class="steps" id="pedir">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="divider">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 12 q 9 -10, 18 0 q -9 10, -18 0 Z"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
+        </div>
+        <span class="eyebrow solo">Cómo pedir</span>
+        <h2>Tres pasos y ya está</h2>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step">
+          <span class="step-num">01</span>
+          <h3>Elegí tus pastas</h3>
+          <p>Mirá la carta y armá tu pedido. Lo que ves, es lo que llevás.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <h3>Mandanos un WhatsApp</h3>
+          <p>Decinos qué querés y para cuándo. Te confirmamos en minutos.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <h3>Retirá o recibilo</h3>
+          <p>Pasá por el local del Liceo Procrear o te lo llevamos en el día.</p>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top: 3.2rem;">
+        <a class="btn btn-primary" href="https://wa.me/543574432907" target="_blank" rel="noopener">
+          Empezar mi pedido
+          <svg width="14" height="14" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <path d="M1 6h13M9 1l5 5-5 5"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== 9. TESTIMONIOS ======== -->
+  <section class="testimonials">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="divider">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 8 q 0 -4, 4 -4 v 2 q -2 0, -2 2 h 2 v 4 H 6 V 8 Z M14 8 q 0 -4, 4 -4 v 2 q -2 0, -2 2 h 2 v 4 h -4 V 8 Z"/></svg>
+        </div>
+        <span class="eyebrow solo">Lo que dicen</span>
+        <h2>Clientes que vuelven cada semana</h2>
+      </div>
+
+      <div class="quotes">
+        <article class="quote">
+          <div class="quote-mark">“</div>
+          <blockquote>Llevo años comprando acá. Nunca me defraudaron.</blockquote>
+          <cite>Marta G.<small>Cliente habitual · Liceo</small></cite>
+        </article>
+
+        <article class="quote">
+          <div class="quote-mark">“</div>
+          <blockquote>Los sorrentinos tienen más relleno que en cualquier otro lugar.</blockquote>
+          <cite>Ricardo F.<small>Vecino del barrio</small></cite>
+        </article>
+
+        <article class="quote">
+          <div class="quote-mark">“</div>
+          <blockquote>El ritual del domingo no sería lo mismo sin La Famiglia.</blockquote>
+          <cite>Familia Rodríguez<small>Tres generaciones de clientes</small></cite>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== 10. NOSOTROS ======== -->
+  <section class="about" id="nosotros">
+    <div class="wrap about-grid">
+      <div>
+        <span class="eyebrow about-eyebrow solo">Nosotros</span>
+        <h2>Receta de la <em>nonna</em>, manos de la familia.</h2>
+        <p>
+          En La Famiglia hacemos pastas como se hacían en casa: con tiempo, con las manos, con lo que la nonna le ponía cuando nadie miraba — un huevo de más, una pizca extra de nuez moscada, y mucha paciencia.
+        </p>
+        <p>
+          La familia Argañaraz amasa, rellena y corta cada pieza, todos los días, en el local del Liceo Procrear. Lo que cambió fue el horno; la receta es la misma de siempre. Si nos preguntás el secreto, contestamos lo de siempre: tiempo y cariño.
+        </p>
+        <div class="about-sign">— La famiglia Argañaraz</div>
+      </div>
+
+      <div class="about-figure" aria-hidden="true">
+        <svg viewBox="0 0 600 480" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="boardW" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#a3804f"/>
+              <stop offset="100%" stop-color="#7a5a32"/>
+            </linearGradient>
+            <radialGradient id="doughG" cx="50%" cy="40%" r="60%">
+              <stop offset="0%"  stop-color="#faf6ee"/>
+              <stop offset="100%" stop-color="#e8d8b8"/>
+            </radialGradient>
+            <linearGradient id="skinG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#f3d4ae"/>
+              <stop offset="100%" stop-color="#d6a577"/>
+            </linearGradient>
+          </defs>
+
+          <rect x="40" y="280" width="520" height="160" rx="6" fill="url(#boardW)"/>
+          <rect x="40" y="280" width="520" height="6" fill="#5a3a1f" opacity="0.4"/>
+          <g stroke="#5a3a1f" stroke-width="1" opacity="0.25">
+            <line x1="60" y1="320" x2="540" y2="320"/>
+            <line x1="60" y1="360" x2="540" y2="360"/>
+            <line x1="60" y1="400" x2="540" y2="400"/>
+          </g>
+
+          <g fill="#faf6ee" opacity="0.85">
+            <circle cx="80" cy="270" r="2"/> <circle cx="120" cy="266" r="1.4"/>
+            <circle cx="180" cy="278" r="1.6"/> <circle cx="450" cy="270" r="1.6"/>
+            <circle cx="500" cy="280" r="2"/> <circle cx="540" cy="272" r="1.2"/>
+          </g>
+
+          <ellipse cx="300" cy="290" rx="120" ry="45" fill="#cdb88a" opacity="0.35"/>
+          <ellipse cx="300" cy="280" rx="110" ry="50" fill="url(#doughG)"/>
+          <path d="M210 280 q 90 -30, 180 0" stroke="#cdb88a" stroke-width="1.4" fill="none" opacity="0.6"/>
+          <path d="M220 290 q 80 -16, 160 0" stroke="#cdb88a" stroke-width="1" fill="none" opacity="0.5"/>
+
+          <g>
+            <path d="M120 260 q -20 -30, 10 -55 q 10 -10, 18 -8 q 0 -16, 14 -16 q 8 0, 8 12 q 10 -8, 18 0 q 6 8, 0 18 q 12 -2, 14 8 q 2 12, -8 18 q 6 6, 0 14 q -8 8, -22 8 q -28 4, -52 1 Z"
+                  fill="url(#skinG)" stroke="#a07418" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M150 235 q 4 -10, 14 -8" stroke="#a07418" stroke-width="1" fill="none" opacity="0.5"/>
+            <path d="M165 220 q 6 -4, 12 -2" stroke="#a07418" stroke-width="1" fill="none" opacity="0.5"/>
+            <path d="M140 270 q 16 -2, 30 0" stroke="#a07418" stroke-width="0.8" fill="none" opacity="0.3"/>
+          </g>
+
+          <g transform="translate(600,0) scale(-1,1)">
+            <path d="M120 260 q -20 -30, 10 -55 q 10 -10, 18 -8 q 0 -16, 14 -16 q 8 0, 8 12 q 10 -8, 18 0 q 6 8, 0 18 q 12 -2, 14 8 q 2 12, -8 18 q 6 6, 0 14 q -8 8, -22 8 q -28 4, -52 1 Z"
+                  fill="url(#skinG)" stroke="#a07418" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M150 235 q 4 -10, 14 -8" stroke="#a07418" stroke-width="1" fill="none" opacity="0.5"/>
+            <path d="M165 220 q 6 -4, 12 -2" stroke="#a07418" stroke-width="1" fill="none" opacity="0.5"/>
+            <path d="M140 270 q 16 -2, 30 0" stroke="#a07418" stroke-width="0.8" fill="none" opacity="0.3"/>
+          </g>
+
+          <g fill="#faf6ee" opacity="0.9">
+            <circle cx="240" cy="180" r="1.6"/>
+            <circle cx="270" cy="160" r="1.2"/>
+            <circle cx="320" cy="150" r="1.8"/>
+            <circle cx="360" cy="170" r="1.4"/>
+            <circle cx="220" cy="220" r="1.2"/>
+            <circle cx="380" cy="220" r="1.6"/>
+            <circle cx="200" cy="200" r="1"/>
+            <circle cx="400" cy="190" r="1.2"/>
+          </g>
+
+          <g transform="translate(440,360) rotate(20)">
+            <path d="M0 0 q 8 -10, 18 -4 q -2 10, -10 8 q -8 -2, -8 -4 Z" fill="#1a1410" stroke="#0a0805" stroke-width="1"/>
+            <path d="M14 -4 q 8 -8, 16 -2 q -4 8, -10 8 q -8 -2, -6 -6 Z" fill="#1a1410" stroke="#0a0805" stroke-width="1"/>
+            <path d="M-2 0 q -4 8, -2 18" stroke="#1a1410" stroke-width="2" fill="none"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== 11. FOOTER ======== -->
+  <footer class="footer" id="contacto">
+    <div class="footer-top" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <a href="#top" class="brand brand-lg">
+            <svg class="brand-mark"><use href="#chefhat"/></svg>
+            <span class="brand-text">
+              <span class="lf">La Famiglia</span>
+              <span class="arg">Argañaraz</span>
+            </span>
+          </a>
+          <p class="footer-tag">Pastas frescas artesanales. Hechas a mano, todos los días, en el barrio Liceo Procrear.</p>
+
+          <div class="footer-socials">
+            <a href="https://wa.me/543574432907" target="_blank" rel="noopener" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.7 1.4 5.7 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.3zM12 21.8c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.3C2.1 6.6 6.5 2.2 12 2.2c2.6 0 5.1 1 7 2.9 1.9 1.9 2.9 4.4 2.9 7-.1 5.4-4.5 9.8-9.9 9.8z"/>
+                <path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.6.1-1.7-.8-2.8-1.5-3.9-3.4-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2.1 3.2 5 4.4.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.6-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3z"/>
+              </svg>
+            </a>
+            <a href="https://instagram.com/la.famiglia.pastas" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4>Visitanos</h4>
+          <ul>
+            <li><strong>Liceo Procrear</strong></li>
+            <li>Sector 8 · Manzana 46</li>
+            <li>Córdoba</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Horarios</h4>
+          <ul>
+            <li><strong>Lun a Sáb</strong></li>
+            <li>10 a 14 hs</li>
+            <li>19 a 21:30 hs</li>
+            <li><strong>Domingo</strong></li>
+            <li>10 a 14 hs</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li><a href="https://wa.me/543574432907" target="_blank" rel="noopener"><strong>3574 43-2907</strong></a></li>
+            <li><a href="https://wa.me/543574432907" target="_blank" rel="noopener">WhatsApp · pedidos</a></li>
+            <li><a href="https://instagram.com/la.famiglia.pastas" target="_blank" rel="noopener">@la.famiglia.pastas</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© La Famiglia Argañaraz · Pastas Artesanales</span>
+        <span>Hecho con harina, huevo y paciencia.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======== JS · nav blur + menú mobile ======== -->
+  <script>
+    (function () {
+      const nav    = document.getElementById('nav');
+      const burger = document.getElementById('navBurger');
+      const panel  = document.getElementById('navPanel');
+
+      /* Blur al hacer scroll */
+      const onScroll = () => {
+        if (window.scrollY > 24) nav.classList.add('scrolled');
+        else nav.classList.remove('scrolled');
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      /* Menú mobile: toggle */
+      const setOpen = (open) => {
+        panel.classList.toggle('open', open);
+        burger.setAttribute('aria-expanded', String(open));
+        burger.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+        document.body.classList.toggle('menu-open', open);
+      };
+
+      burger.addEventListener('click', () => {
+        setOpen(!panel.classList.contains('open'));
+      });
+
+      /* Cerrar al tocar un link */
+      panel.addEventListener('click', (e) => {
+        if (e.target.closest('a')) setOpen(false);
+      });
+
+      /* Cerrar con ESC */
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && panel.classList.contains('open')) setOpen(false);
+      });
+
+      /* Cerrar si la pantalla pasa a desktop */
+      let resizeT;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeT);
+        resizeT = setTimeout(() => {
+          if (window.innerWidth > 960 && panel.classList.contains('open')) setOpen(false);
+        }, 120);
+      });
+    })();
+  </script>
+
+</body>
+</html>
