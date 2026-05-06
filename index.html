@@ -355,8 +355,12 @@
     .nav-burger[aria-expanded="true"] .burger-open { display: none; }
     .nav-burger[aria-expanded="true"] .burger-close { display: block; }
 
-    /* En desktop el <nav class="nav-panel"> "desaparece" del layout y deja a la UL como hija directa del flex */
+    /* En desktop el <nav class="nav-panel"> "desaparece" del layout y deja a la UL como hija directa del flex.
+       Como display: contents expone TODOS los hijos del panel al flex padre, hay que ocultar
+       explícitamente los elementos decorativos del panel mobile (eyebrow + foot con CTA). */
     .nav-panel { display: contents; }
+    .nav-panel-eyebrow,
+    .nav-panel-foot { display: none; }
 
     /* =========================================================
        NAV STATE MACHINE
@@ -1638,8 +1642,9 @@
       .nav-panel .nav-links a:active { color: var(--cheese-d); padding-left: 0.4rem; }
       .nav-panel .nav-links a::after { display: none; }
 
-      /* Footer interno del panel · CTA + firma */
+      /* Footer interno del panel · CTA + firma (re-activado en mobile) */
       .nav-panel-foot {
+        display: block;
         padding: 1rem 1.5rem 1.5rem;
         border-top: 1px solid rgba(26, 20, 16, 0.10);
         background: var(--cream-soft);
