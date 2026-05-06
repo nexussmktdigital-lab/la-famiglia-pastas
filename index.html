@@ -277,21 +277,26 @@
     }
     .nav-links {
       display: flex;
-      gap: 1.85rem;
+      flex-wrap: nowrap;
+      gap: 1.5rem;
       list-style: none;
       padding: 0; margin: 0;
       font-family: var(--f-ui);
-      font-size: 0.86rem;
-      letter-spacing: 0.12em;
+      font-size: 0.84rem;
+      letter-spacing: 0.10em;
       text-transform: uppercase;
     }
+    .nav-links li { flex: 0 0 auto; }
     .nav-links a {
       position: relative;
       padding: 0.4rem 0;
       color: var(--ink);
       opacity: 0.78;
+      white-space: nowrap;
       transition: opacity 0.3s var(--ease), color 0.3s var(--ease);
     }
+    /* Item visible solo en mobile (en desktop tenemos espacio limitado en el nav) */
+    .nav-link-mobile { display: none; }
     .nav-links a::after {
       content: '';
       position: absolute;
@@ -1617,6 +1622,8 @@
         text-transform: none;
         flex: 1;
       }
+      /* En mobile el item "Cómo Llegar" SÍ se muestra */
+      .nav-link-mobile { display: list-item; }
       .nav-panel .nav-links li { width: 100%; }
       .nav-panel .nav-links a {
         display: block;
@@ -2092,7 +2099,7 @@
           <li><a href="#tips">Tips</a></li>
           <li><a href="#pedir">Cómo Pedir</a></li>
           <li><a href="#nosotros">Nosotros</a></li>
-          <li><a href="#mapa">Cómo Llegar</a></li>
+          <li class="nav-link-mobile"><a href="#mapa">Cómo Llegar</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>
 
