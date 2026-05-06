@@ -130,10 +130,15 @@
   display: flex;
   flex-direction: column;
   transform: translateX(100%);
-  transition: transform 0.5s var(--ease);
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  box-shadow: none; /* sombra solo cuando está abierto */
+  pointer-events: none; /* defensivo · no captura clicks cuando está cerrado */
+}
+.cart-drawer.open {
+  transform: translateX(0);
+  pointer-events: auto;
   box-shadow: -16px 0 40px rgba(10, 8, 5, 0.3);
 }
-.cart-drawer.open { transform: translateX(0); }
 
 /* Header */
 .cart-head {

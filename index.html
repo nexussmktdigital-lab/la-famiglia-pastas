@@ -1342,7 +1342,49 @@
     .about-figure svg { width: 100%; height: auto; filter: drop-shadow(0 16px 32px rgba(0,0,0,0.18)); }
 
     /* =========================================================
-       16. FOOTER
+       16. MAPA · cómo llegar (entre Nosotros y Footer)
+       ========================================================= */
+    .map {
+      padding-block: clamp(4.5rem, 8vw, 6.5rem);
+      background: var(--cream-deep);
+      position: relative;
+    }
+    .map .section-head p strong {
+      font-family: var(--f-display);
+      font-style: italic;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .map-frame {
+      max-width: 1080px;
+      margin: 0 auto;
+      aspect-ratio: 16 / 9;
+      border: 1px solid rgba(26, 20, 16, 0.18);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow:
+        inset 0 0 0 6px var(--cream-soft),
+        inset 0 0 0 7px rgba(26, 20, 16, 0.18),
+        0 18px 48px rgba(10, 8, 5, 0.14);
+      background: var(--cream-soft);
+    }
+    .map-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      filter: saturate(85%) contrast(98%);
+    }
+    .map-cta {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    @media (max-width: 620px) {
+      .map-frame { aspect-ratio: 4 / 5; }
+    }
+
+    /* =========================================================
+       17. FOOTER
        ========================================================= */
     .footer {
       background: var(--ink-deep);
@@ -1516,53 +1558,118 @@
         gap: 0.45rem;
       }
       .nav-cta { margin-left: auto; }
-      .nav-burger { display: inline-flex; }
+      .nav-burger { display: inline-flex; position: relative; }
+      /* Hit area expandida (workaround iOS Safari) */
+      .nav-burger::before {
+        content: '';
+        position: absolute;
+        inset: -8px;
+      }
+
       .nav-panel {
-        display: block;
+        display: flex;
+        flex-direction: column;
         position: fixed;
         top: 0; left: 0; right: 0; bottom: 0;
         background: var(--cream);
-        z-index: 60;
-        padding: 5.5rem 1.6rem 2rem;
+        z-index: 65; /* arriba del contenido, debajo del nav (70) */
+        /* Padding-top deja espacio para el nav fijo (brand + X-burger) */
+        padding: 5rem 0 0;
         transform: translateY(-100%);
-        transition: transform 0.5s var(--ease), visibility 0.5s var(--ease);
+        transition: transform 0.5s var(--ease), visibility 0s linear 0.5s;
         visibility: hidden;
         overflow-y: auto;
       }
       .nav-panel.open {
         transform: translateY(0);
         visibility: visible;
+        transition: transform 0.5s var(--ease), visibility 0s linear 0s;
       }
+
+      /* Eyebrow "Menú" · pequeño rótulo arriba de los links */
+      .nav-panel-eyebrow {
+        display: block;
+        font-family: var(--f-ui);
+        font-size: 0.74rem;
+        font-weight: 500;
+        letter-spacing: 0.32em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        opacity: 0.55;
+        margin: 0 1.5rem;
+        padding: 0.4rem 0 0.9rem;
+        border-bottom: 1px dashed rgba(26, 20, 16, 0.16);
+      }
+
+      /* Lista de links */
       .nav-panel .nav-links {
+        list-style: none;
+        margin: 0;
+        padding: 0.4rem 1.5rem;
         display: flex;
         flex-direction: column;
         gap: 0;
         font-family: var(--f-display);
         font-style: italic;
         font-weight: 700;
-        font-size: clamp(1.7rem, 6vw, 2.2rem);
+        font-size: clamp(1.55rem, 5.4vw, 2rem);
         letter-spacing: -0.01em;
         text-transform: none;
+        flex: 1;
       }
+      .nav-panel .nav-links li { width: 100%; }
       .nav-panel .nav-links a {
         display: block;
         padding: 1rem 0;
-        border-bottom: 1px dashed rgba(26, 20, 16, 0.18);
+        border-bottom: 1px dashed rgba(26, 20, 16, 0.16);
         opacity: 1;
         color: var(--ink);
+        transition: color 0.3s var(--ease), padding-left 0.3s var(--ease);
       }
-      .nav-panel .nav-links a:hover { color: var(--cheese); }
+      .nav-panel .nav-links li:last-child a { border-bottom: 0; }
+      .nav-panel .nav-links a:hover,
+      .nav-panel .nav-links a:active { color: var(--cheese-d); padding-left: 0.4rem; }
       .nav-panel .nav-links a::after { display: none; }
-      /* Decoración del panel: pequeño ornamento al fondo */
-      .nav-panel::after {
-        content: 'La Famiglia';
-        display: block;
-        font-family: var(--f-script);
-        font-size: 2.2rem;
-        color: var(--cheese);
-        opacity: 0.4;
-        margin-top: 2.5rem;
+
+      /* Footer interno del panel · CTA + firma */
+      .nav-panel-foot {
+        padding: 1rem 1.5rem 1.5rem;
+        border-top: 1px solid rgba(26, 20, 16, 0.10);
+        background: var(--cream-soft);
         text-align: center;
+      }
+      .nav-panel-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        width: 100%;
+        padding: 0.95rem 1.4rem;
+        background: var(--ink);
+        color: var(--cream-soft);
+        border-radius: 999px;
+        font-family: var(--f-ui);
+        font-size: 0.92rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        text-decoration: none;
+        box-shadow: 0 8px 18px rgba(10, 8, 5, 0.28);
+        transition: background 0.3s var(--ease), color 0.3s var(--ease), transform 0.3s var(--ease);
+      }
+      .nav-panel-cta svg { width: 16px; height: 16px; }
+      .nav-panel-cta:hover {
+        background: var(--ink-deep);
+        color: var(--cheese-l);
+        transform: translateY(-1px);
+      }
+      .nav-panel-script {
+        display: block;
+        margin-top: 1.2rem;
+        font-family: var(--f-script);
+        font-size: 1.6rem;
+        color: var(--cheese);
+        opacity: 0.65;
+        line-height: 1;
       }
     }
 
@@ -1978,13 +2085,27 @@
       </a>
 
       <nav class="nav-panel" id="navPanel" aria-label="Principal">
+        <span class="nav-panel-eyebrow">Menú</span>
+
         <ul class="nav-links">
           <li><a href="#carta">Carta</a></li>
           <li><a href="#tips">Tips</a></li>
           <li><a href="#pedir">Cómo Pedir</a></li>
           <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#mapa">Cómo Llegar</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>
+
+        <div class="nav-panel-foot">
+          <a class="nav-panel-cta" href="https://wa.me/543574432907" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.6.1-1.7-.8-2.8-1.5-3.9-3.4-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2.1 3.2 5 4.4.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.6-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3z"/>
+              <path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.7 1.4 5.7 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.3zM12 21.8c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.3C2.1 6.6 6.5 2.2 12 2.2c2.6 0 5.1 1 7 2.9 1.9 1.9 2.9 4.4 2.9 7-.1 5.4-4.5 9.8-9.9 9.8z"/>
+            </svg>
+            Pedir por WhatsApp
+          </a>
+          <span class="nav-panel-script">La Famiglia · Argañaraz</span>
+        </div>
       </nav>
 
       <a class="nav-cta" href="https://wa.me/543574432907" target="_blank" rel="noopener" aria-label="Pedir por WhatsApp">
@@ -2078,7 +2199,7 @@
 
         <div class="hero-ctas">
           <a class="btn btn-primary" href="#carta">Ver la carta</a>
-          <a class="btn btn-ghost" href="#contacto">
+          <a class="btn btn-ghost" href="#mapa">
             Cómo llegar
             <svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
               <path d="M1 6h13M9 1l5 5-5 5"/>
@@ -2096,8 +2217,8 @@
             Liceo Procrear · Mz 46
           </div>
           <div>
-            <strong>0 km</strong>
-            Del local a tu mesa
+            <strong>Hoy mismo</strong>
+            De la fábrica a tu mesa
           </div>
         </div>
       </div>
@@ -2107,8 +2228,8 @@
   <!-- ======== 3. STRIP MARQUEE ======== -->
   <section class="strip" aria-hidden="true">
     <div class="marquee">
-      <span>Sin conservantes <i class="dot"></i> Relleno generoso <i class="dot"></i> Masa al huevo <i class="dot"></i> Elaboración a la vista <i class="dot"></i> Para freezar también <i class="dot"></i> Envíos al barrio <i class="dot"></i> La Famiglia Argañaraz <i class="dot"></i></span>
-      <span>Sin conservantes <i class="dot"></i> Relleno generoso <i class="dot"></i> Masa al huevo <i class="dot"></i> Elaboración a la vista <i class="dot"></i> Para freezar también <i class="dot"></i> Envíos al barrio <i class="dot"></i> La Famiglia Argañaraz <i class="dot"></i></span>
+      <span>Sin conservantes <i class="dot"></i> Porciones abundantes <i class="dot"></i> Masa al huevo <i class="dot"></i> Para freezar también <i class="dot"></i> Ventas por mayor y menor <i class="dot"></i> Envíos a toda Córdoba <i class="dot"></i> La Famiglia Argañaraz <i class="dot"></i></span>
+      <span>Sin conservantes <i class="dot"></i> Porciones abundantes <i class="dot"></i> Masa al huevo <i class="dot"></i> Para freezar también <i class="dot"></i> Ventas por mayor y menor <i class="dot"></i> Envíos a toda Córdoba <i class="dot"></i> La Famiglia Argañaraz <i class="dot"></i></span>
     </div>
   </section>
 
@@ -2375,7 +2496,7 @@
       </div>
 
       <div style="text-align:center; margin-top: 3.2rem;">
-        <a class="btn btn-primary" href="https://wa.me/543574432907" target="_blank" rel="noopener">
+        <a class="btn btn-primary" href="#carta">
           Empezar mi pedido
           <svg width="14" height="14" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
             <path d="M1 6h13M9 1l5 5-5 5"/>
@@ -2506,7 +2627,41 @@
     </div>
   </section>
 
-  <!-- ======== 11. FOOTER ======== -->
+  <!-- ======== 11. CÓMO LLEGAR · mapa ======== -->
+  <section class="map" id="mapa">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="divider">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2 C 8 2, 5 5, 5 9 c 0 5, 7 12, 7 12 s 7 -7, 7 -12 c 0 -4, -3 -7, -7 -7 z M12 11 a 2 2 0 1 1 0 -4 a 2 2 0 0 1 0 4 z"/>
+          </svg>
+        </div>
+        <span class="eyebrow solo">Cómo llegar</span>
+        <h2>Pasá a buscar tus pastas</h2>
+        <p>Estamos en <strong>Liceo Procrear · Sector 8 · Manzana 46</strong>, Córdoba.</p>
+      </div>
+
+      <div class="map-frame">
+        <iframe
+          title="Ubicación de La Famiglia Argañaraz · Liceo Procrear, Córdoba"
+          src="https://www.google.com/maps?q=-31.3493137,-64.1610876&hl=es&z=16&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen></iframe>
+      </div>
+
+      <div class="map-cta">
+        <a class="btn btn-primary" href="https://maps.app.goo.gl/Z7eeBg5Wj53mdv8A8" target="_blank" rel="noopener">
+          Abrir en Google Maps
+          <svg width="14" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <path d="M1 6h13M9 1l5 5-5 5"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== 12. FOOTER ======== -->
   <footer class="footer" id="contacto">
     <div class="footer-top" aria-hidden="true"></div>
     <div class="wrap">
@@ -2660,7 +2815,7 @@
         setOpen(!panel.classList.contains('open'));
       });
 
-      /* Cerrar al tocar un link */
+      /* Cerrar al tocar cualquier link del panel (interno o externo) */
       panel.addEventListener('click', (e) => {
         if (e.target.closest('a')) setOpen(false);
       });

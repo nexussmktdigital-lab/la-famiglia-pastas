@@ -23,7 +23,14 @@
     cart       = lfLoadCart();
 
     // Limpiar items del carrito que apuntan a productos borrados
-    cart = cart.filter(item => lfGetProductById(products, item.id));
+    // y re-etiquetar nombres genéricos (ej. "1 kg" → "Tallarines 1 kg")
+    cart = cart
+      .filter(item => lfGetProductById(products, item.id))
+      .map(item => {
+        const product = lfGetProductById(products, item.id);
+        const label = lfCartLabel(product, categories);
+        return label !== item.name ? Object.assign({}, item, { name: label }) : item;
+      });
     persistCart();
 
     renderMenu();
@@ -103,13 +110,16 @@
     const product = lfGetProductById(products, productId);
     if (!product || !product.available) return;
 
+    // Etiqueta amigable para el carrito (prefija categoría si el nombre es solo "1 kg", etc.)
+    const label = lfCartLabel(product, categories);
+
     const existing = cart.find(i => i.id === product.id);
     if (existing) {
       existing.qty += 1;
     } else {
       cart.push({
         id: product.id,
-        name: product.name,
+        name: label,
         price: product.price, // snapshot del precio al momento de agregar
         qty: 1,
       });
@@ -118,7 +128,7 @@
     renderCart();
     updateBadge();
     flashFAB();
-    showToast(product.name + ' · agregado al carrito');
+    showToast(label + ' · agregado al carrito');
   }
 
   function changeQty(productId, delta) {

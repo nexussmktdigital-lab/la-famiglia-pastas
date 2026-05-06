@@ -173,6 +173,22 @@ function lfSlugify(str) {
     .replace(/^-|-$/g, '');
 }
 
+// Si el nombre del producto es solo un tamaño (ej. "1 kg", "½ kg", "500g"),
+// devuelve "{Categoría} {nombre}" para que se entienda en el carrito.
+// Para nombres descriptivos (ej. "Muzzarella y jamón") devuelve el nombre tal cual.
+function lfCartLabel(product, categories) {
+  const name = String(product && product.name || '').trim();
+  if (!name) return name;
+
+  // Detectar nombres genéricos: solo cantidad + unidad (kg, gr, g, unidades, u)
+  const isJustSize = /^(½|1\/2|\d+([.,]\d+)?)\s*(kg|gr|g|u|un|unidades?)\b/i.test(name);
+  if (isJustSize) {
+    const cat = lfGetCategoryById(categories, product.category);
+    if (cat && cat.name) return cat.name + ' ' + name;
+  }
+  return name;
+}
+
 function lfGetCategoryById(categories, id) {
   return categories.find(c => c.id === id);
 }
