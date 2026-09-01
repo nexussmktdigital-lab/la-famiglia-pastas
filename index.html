@@ -1559,128 +1559,150 @@
       .brand-lg .brand-text .arg { font-size: 1.15rem; margin-left: 1.8em; }
       .brand-lg .brand-mark { width: 50px; height: 50px; }
 
-      /* === MOBILE NAV: panel deslizable + burger === */
+      /* ===========================================================
+         MOBILE NAV · panel deslizable + burger
+         =========================================================== */
       .nav { z-index: 70; }
-      /* Reagrupamos: brand a la izquierda · [WhatsApp][Burger] juntos a la derecha */
+      /* Brand a la izquierda · [WhatsApp][Burger] juntos a la derecha */
       .nav-inner {
         justify-content: flex-start;
         gap: 0.45rem;
       }
       .nav-cta { margin-left: auto; }
       .nav-burger { display: inline-flex; position: relative; }
-      /* Hit area expandida (workaround iOS Safari) */
+      /* Hit-area expandida (workaround iOS Safari) */
       .nav-burger::before {
         content: '';
         position: absolute;
         inset: -8px;
       }
 
+      /* Panel: arranca JUSTO DEBAJO del nav para no tapar el header */
       .nav-panel {
         display: flex;
         flex-direction: column;
         position: fixed;
         top: 0; left: 0; right: 0; bottom: 0;
         background: var(--cream);
-        z-index: 65; /* arriba del contenido, debajo del nav (70) */
-        /* Padding-top deja espacio para el nav fijo (brand + X-burger) */
-        padding: 5rem 0 0;
+        z-index: 65;
+        padding: 0;
         transform: translateY(-100%);
         transition: transform 0.5s var(--ease), visibility 0s linear 0.5s;
         visibility: hidden;
         overflow-y: auto;
+        overscroll-behavior: contain;
       }
       .nav-panel.open {
         transform: translateY(0);
         visibility: visible;
         transition: transform 0.5s var(--ease), visibility 0s linear 0s;
       }
+      /* Spacer arriba del contenido = altura aproximada del nav fijo */
+      .nav-panel::before {
+        content: '';
+        display: block;
+        height: 4.25rem;
+        flex-shrink: 0;
+      }
 
-      /* Eyebrow "Menú" · pequeño rótulo arriba de los links */
+      /* ----- Eyebrow "MENÚ" ----- */
       .nav-panel-eyebrow {
         display: block;
         font-family: var(--f-ui);
-        font-size: 0.74rem;
+        font-size: 0.72rem;
         font-weight: 500;
-        letter-spacing: 0.32em;
+        letter-spacing: 0.3em;
         text-transform: uppercase;
         color: var(--ink-soft);
         opacity: 0.55;
-        margin: 0 1.5rem;
-        padding: 0.4rem 0 0.9rem;
-        border-bottom: 1px dashed rgba(26, 20, 16, 0.16);
+        padding: 1.2rem 1.5rem 0.6rem;
+        flex-shrink: 0;
       }
 
-      /* Lista de links */
+      /* ----- Lista de links ----- */
       .nav-panel .nav-links {
         list-style: none;
         margin: 0;
-        padding: 0.4rem 1.5rem;
+        padding: 0;
         display: flex;
         flex-direction: column;
         gap: 0;
         font-family: var(--f-display);
         font-style: italic;
         font-weight: 700;
-        font-size: clamp(1.55rem, 5.4vw, 2rem);
+        font-size: clamp(1.6rem, 5.6vw, 2.1rem);
         letter-spacing: -0.01em;
         text-transform: none;
-        flex: 1;
+        flex: 1 0 auto; /* empuja el footer hacia abajo */
       }
-      /* En mobile el item "Cómo Llegar" SÍ se muestra */
+      /* "Cómo Llegar" visible solo en mobile */
       .nav-link-mobile { display: list-item; }
-      .nav-panel .nav-links li { width: 100%; }
+      .nav-panel .nav-links li {
+        width: 100%;
+        border-bottom: 1px dashed rgba(26, 20, 16, 0.14);
+      }
+      .nav-panel .nav-links li:last-child { border-bottom: 0; }
       .nav-panel .nav-links a {
-        display: block;
-        padding: 1rem 0;
-        border-bottom: 1px dashed rgba(26, 20, 16, 0.16);
+        display: flex;
+        align-items: center;
+        padding: 1.05rem 1.5rem;
         opacity: 1;
         color: var(--ink);
-        transition: color 0.3s var(--ease), padding-left 0.3s var(--ease);
+        text-decoration: none;
+        transition: color 0.3s var(--ease), background 0.3s var(--ease), padding-left 0.3s var(--ease);
       }
-      .nav-panel .nav-links li:last-child a { border-bottom: 0; }
-      .nav-panel .nav-links a:hover,
-      .nav-panel .nav-links a:active { color: var(--cheese-d); padding-left: 0.4rem; }
       .nav-panel .nav-links a::after { display: none; }
+      .nav-panel .nav-links a:hover,
+      .nav-panel .nav-links a:active {
+        color: var(--cheese-d);
+        background: rgba(212, 168, 42, 0.06);
+        padding-left: 1.85rem;
+      }
 
-      /* Footer interno del panel · CTA + firma (re-activado en mobile) */
+      /* ----- Footer del panel ----- */
       .nav-panel-foot {
         display: block;
-        padding: 1rem 1.5rem 1.5rem;
-        border-top: 1px solid rgba(26, 20, 16, 0.10);
+        flex-shrink: 0;
+        padding: 1.4rem 1.5rem 1.6rem;
         background: var(--cream-soft);
+        border-top: 1px solid rgba(26, 20, 16, 0.10);
         text-align: center;
       }
       .nav-panel-cta {
-        display: inline-flex;
+        display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.55rem;
+        gap: 0.6rem;
         width: 100%;
-        padding: 0.95rem 1.4rem;
+        padding: 0.95rem 1.2rem;
         background: var(--ink);
         color: var(--cream-soft);
         border-radius: 999px;
         font-family: var(--f-ui);
-        font-size: 0.92rem;
+        font-size: 0.9rem;
         font-weight: 500;
         letter-spacing: 0.04em;
         text-decoration: none;
-        box-shadow: 0 8px 18px rgba(10, 8, 5, 0.28);
+        box-shadow: 0 8px 20px rgba(10, 8, 5, 0.30);
         transition: background 0.3s var(--ease), color 0.3s var(--ease), transform 0.3s var(--ease);
       }
-      .nav-panel-cta svg { width: 16px; height: 16px; }
-      .nav-panel-cta:hover {
+      .nav-panel-cta svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+      }
+      .nav-panel-cta:hover,
+      .nav-panel-cta:active {
         background: var(--ink-deep);
         color: var(--cheese-l);
-        transform: translateY(-1px);
       }
       .nav-panel-script {
         display: block;
-        margin-top: 1.2rem;
+        margin-top: 1rem;
         font-family: var(--f-script);
-        font-size: 1.6rem;
-        color: var(--cheese);
-        opacity: 0.65;
+        font-size: 1.4rem;
+        color: var(--cheese-d);
+        opacity: 0.6;
         line-height: 1;
       }
     }
